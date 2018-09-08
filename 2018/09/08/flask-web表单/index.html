@@ -127,7 +127,7 @@
 
 
 
-  <title>归档 | allen's blog</title>
+  <title>flask web表单 | allen's blog</title>
   
 
 
@@ -156,7 +156,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -294,259 +294,326 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/08/flask-web表单/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="allen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="allen's blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h1 class="post-title" itemprop="name headline">flask web表单</h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-08T23:14:19+08:00">2018-09-08</time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-        嗯..! 目前共计 15 篇日志。 继续努力。
-      </span>
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/flask/" itemprop="url" rel="index">
+                    <span itemprop="name">flask</span>
+                  </a>
+                </span>
 
-      
-
-        
-        
-        
-
-        
+                
+                
+              
+            </span>
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2018">2018</h1>
-          </div>
-        
-        
 
-        
+          
+            
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/09/08/flask-web表单/" itemprop="url">
-              
-                <span itemprop="name">flask web表单</span>
-              
-            </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-09-08T23:14:19+08:00"
-              content="2018-09-08" >
-          09-08
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+          
 
+        </div>
+      </header>
+    
 
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/09/08/ubuntu部署hexo博客踩到的坑/" itemprop="url">
-              
-                <span itemprop="name">ubuntu部署hexo博客踩到的坑</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-09-08T18:14:06+08:00"
-              content="2018-09-08" >
-          09-08
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
+      
+        <h4 id="第三方扩展"><a href="#第三方扩展" class="headerlink" title="第三方扩展"></a>第三方扩展</h4><p>尽管flask的请求对象提供的信息足够用力处理web表单,但是比较繁琐,重复操作.flask-wtf扩展可以使处理web表单的过程变得更方便简洁.</p>
+<p>flask-wtf扩展,将WTForm包进行了包装,方便集成到flask程序中.</p>
+<p>安装方式:</p>
+<pre><code>pip install flask-wtf
+</code></pre><a id="more"></a>
+<h4 id="csrf-跨站请求伪造-保护"><a href="#csrf-跨站请求伪造-保护" class="headerlink" title="csrf(跨站请求伪造)保护"></a>csrf(跨站请求伪造)保护</h4><p>为了实现csrf保护,flask-wtf需要程序设置一个秘钥.flask-wtf使用这个秘钥生成加密令牌,再用凌攀验证请求中表单数据的真伪.</p>
+<p>程序设置秘钥的方法:</p>
+<pre><code>from flask import Flask
 
-        
-        
+app = Flask(__name__)
+app.config[&apos;SECRET_KEY&apos;] = &apos;一个很难猜的字符串&apos;
+# 为了安全行,秘钥不应该写到代码里,而是要保存到环境变量中.
+</code></pre><p>app.config字典用来存储框架,扩展和程序本身的配置变量.</p>
+<p>SECRET_KEY配置变量是通用秘钥,可以在flask和多个第三方扩展中使用.</p>
+<h4 id="表单类"><a href="#表单类" class="headerlink" title="表单类"></a>表单类</h4><p>使用flask-wtf时,每个表单都继承Form的类表示,该类定义表单中的一组字段,每个字段都用对象表示.字段对象可以添加一个或多个验证函数,验证函数用来验证用户输入的值是否符合要求.</p>
+<h5 id="实例：定义一个文本字段和一个提交按钮．"><a href="#实例：定义一个文本字段和一个提交按钮．" class="headerlink" title="实例：定义一个文本字段和一个提交按钮．"></a>实例：定义一个文本字段和一个提交按钮．</h5><pre><code>from flask.ext.wtf import Form
+from wrforms import StringField, SubmitField
+from wtform.validators import Required
 
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/09/08/hello-world/" itemprop="url">
-              
-                <span itemprop="name">Hello World</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-09-08T12:35:19+08:00"
-              content="2018-09-08" >
-          09-08
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+class NameForm(Form):
+    name = StringField(&apos;your name&apos;, validators=[Required()])
+    submit = SubmitField(&apos;Submit&apos;)
+</code></pre><h5 id="flask-wtf支持的字段和验证函数"><a href="#flask-wtf支持的字段和验证函数" class="headerlink" title="flask-wtf支持的字段和验证函数"></a>flask-wtf支持的字段和验证函数</h5><ol>
+<li>flask-wtf支持的HTML标准字段</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>字段类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>StringField</td>
+<td>文本字段</td>
+</tr>
+<tr>
+<td>TextAreaField</td>
+<td>多行文本字段</td>
+</tr>
+<tr>
+<td>PasswordField</td>
+<td>密码文本字段</td>
+</tr>
+<tr>
+<td>HiddenField</td>
+<td>隐藏文本字段</td>
+</tr>
+<tr>
+<td>DateField</td>
+<td>文本字段,值为datetime.date格式</td>
+</tr>
+<tr>
+<td>DateTimeField</td>
+<td>文本字段,值为datetime.datetime格式</td>
+</tr>
+<tr>
+<td>IntegerField</td>
+<td>文本字段,值为整数</td>
+</tr>
+<tr>
+<td>DecimalField</td>
+<td>文本字段,值为decimal.Decimal</td>
+</tr>
+<tr>
+<td>FloatField</td>
+<td>文本字段,值为浮点数</td>
+</tr>
+<tr>
+<td>BooleanField</td>
+<td>复选框,值为True或False</td>
+</tr>
+<tr>
+<td>RadioField</td>
+<td>一组单选框</td>
+</tr>
+<tr>
+<td>SelectField</td>
+<td>下拉列表</td>
+</tr>
+<tr>
+<td>SelectMultipleField</td>
+<td>下拉列表,可选择多个列表</td>
+</tr>
+<tr>
+<td>FileField</td>
+<td>文件上传字段</td>
+</tr>
+<tr>
+<td>SubmitField</td>
+<td>表单提交按钮</td>
+</tr>
+<tr>
+<td>FormField</td>
+<td>把表单作为字段嵌入另一个表单</td>
+</tr>
+<tr>
+<td>FieldList</td>
+<td>一组指定类型的字段</td>
+</tr>
+</tbody>
+</table>
+<ol start="2">
+<li>flask-wtf 支持的验证函数</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>验证函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Email</td>
+<td>验证电子邮件地址</td>
+</tr>
+<tr>
+<td>EqualTo</td>
+<td>比较两个字段的值,常用语要求输入两次密码进行确认的情况</td>
+</tr>
+<tr>
+<td>IPAddress</td>
+<td>验证IPv4网络地址</td>
+</tr>
+<tr>
+<td>Length</td>
+<td>验证输入字符串的长度</td>
+</tr>
+<tr>
+<td>NumberRange</td>
+<td>验证输入的值在数字范围之内</td>
+</tr>
+<tr>
+<td>Optional</td>
+<td>无输入值时,跳过其他验证函数</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>确保值非空</td>
+</tr>
+<tr>
+<td>Regexp</td>
+<td>使用正则表达式验证输入值</td>
+</tr>
+<tr>
+<td>URL</td>
+<td>验证URL</td>
+</tr>
+<tr>
+<td>AnyOf</td>
+<td>确保输入值在可选值列表中</td>
+</tr>
+<tr>
+<td>NoneOf</td>
+<td>确保输入值不在可选值列表中</td>
+</tr>
+</tbody>
+</table>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/09/08/函数式编程学习/" itemprop="url">
-              
-                <span itemprop="name">函数式编程学习</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-09-08T01:28:49+08:00"
-              content="2018-09-08" >
-          09-08
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/09/02/python语法生成器、迭代器、闭包、装饰器总结/" itemprop="url">
-              
-                <span itemprop="name">python语法生成器、迭代器、闭包、装饰器总结</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-09-02T18:36:01+08:00"
-              content="2018-09-02" >
-          09-02
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/09/01/JSON模块和JsonPath/" itemprop="url">
-              
-                <span itemprop="name">JSON模块和JsonPath</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-09-01T11:54:43+08:00"
-              content="2018-09-01" >
-          09-01
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/web表单/" rel="tag"># web表单</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/08/ubuntu部署hexo博客踩到的坑/" rel="next" title="ubuntu部署hexo博客踩到的坑">
+                <i class="fa fa-chevron-left"></i> ubuntu部署hexo博客踩到的坑
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -554,6 +621,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -574,8 +645,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -649,6 +729,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#第三方扩展"><span class="nav-number">1.</span> <span class="nav-text">第三方扩展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#csrf-跨站请求伪造-保护"><span class="nav-number">2.</span> <span class="nav-text">csrf(跨站请求伪造)保护</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#表单类"><span class="nav-number">3.</span> <span class="nav-text">表单类</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#实例：定义一个文本字段和一个提交按钮．"><span class="nav-number">3.1.</span> <span class="nav-text">实例：定义一个文本字段和一个提交按钮．</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#flask-wtf支持的字段和验证函数"><span class="nav-number">3.2.</span> <span class="nav-text">flask-wtf支持的字段和验证函数</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -772,6 +868,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.0"></script>
+
+
 
   
 
