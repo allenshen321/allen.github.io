@@ -127,7 +127,7 @@
 
 
 
-  <title>about | allen's blog</title>
+  <title>python 单元测试模块unittest | allen's blog</title>
   
 
 
@@ -296,33 +296,268 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/12/python-单元测试模块unittest/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="allen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="allen's blog">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">about</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
+          <h1 class="post-title" itemprop="name headline">python 单元测试模块unittest</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-12T13:14:25+08:00">2018-09-12</time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-      </div>
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python基础/" itemprop="url" rel="index">
+                    <span itemprop="name">python基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>单元测试模块主要是用来对一个模块,函数或者一个类进行正确性检验的测试工作.</p>
+<p>例如:对函数abs(),我们可以编写出以下几个测试用例:</p>
+<ol>
+<li>输入正数:1, 1,2, 0.99,期待返回值与输入相同.</li>
+<li>输入负数,期待返回值以输入相反.</li>
+<li>输入0,期待返回0.</li>
+<li>输入非数值类型,比如None,[],{},期待抛出TypeError.</li>
+</ol>
+<p>把上面的测试用例放到一个测试模块中,就是一个完整的单元测试.</p>
+<a id="more"></a>
+<p><strong>结果</strong></p>
+<p>如果单元测试通过,则说明我们测试的单元能够正常工作.如果单元测试不通过,要么被测试的单元有bug,要么测试条件不正确,总之,要修改至单元测试能够通过.</p>
+<p><strong>使用测试模块的意义</strong></p>
+<p>就上例而言,如果我们对abs()函数代码做了修改,只需要再跑一次单元测试,如果通过,则说明我们的修改不会对abs()原有的行为造成影响,如果测试不通过,说明我们的修改与原有的行为不一致,要么修改代码,要么修改测试.</p>
+<p><strong>好处</strong></p>
+<p>单元测试的最大的好处就是,确保一个程序模块的行为符合我们设计的测试用例.在将来改动的时候,可以极大程度的保证该模块仍然是正确的.</p>
+<h4 id="测试单元实例"><a href="#测试单元实例" class="headerlink" title="测试单元实例"></a>测试单元实例</h4><p>我们编写一个Dict类,该类基础功能和dict一致,在此基础上,添加通过属性访问的功能.用法示例如下:</p>
+<pre><code>&gt;&gt;&gt;d = Dict(a=1, b=2)
+&gt;&gt;&gt;d[&apos;a&apos;]
+1
+&gt;&gt;&gt;d.a
+1
+</code></pre><p>在mydict.py文件中Dict类代码如下:</p>
+<pre><code>class Dict(dict):
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def __getattr__(self, key):
+    try:
+        return self[key]
+    except KeyError:
+        raise AttributeError(r&quot;&apos;Dict&apos; object has no attribute &apos;%s&apos;&quot; % key)
+
+    def __setattr__(self, key, value):
+        self[key] = value
+</code></pre><p>单元测试模块mydict_test.py代码如下:</p>
+<pre><code>import unittest
+from mydict import Dict
+
+class TestDict(unittest.TestCase):
+
+    def test_init(self):
+        d = Dict(a=1, b=&apos;test&apos;)
+        self.assertEqual(d.a, 1)
+        self.assertEqual(d.b, &apos;test&apos;)
+        self.assertTrue(isinstance(d, dict))
+
+    def test_key(self):
+        d = Dict()
+        d[&apos;key&apos;] = &apos;value&apos;
+        self.assertEqual(d.key, &apos;value&apos;)
+
+    def test_attr(self):
+        d = Dict()
+        d.key = &apos;value&apos;
+        self.assertTrue(&apos;key&apos; in d)
+        self.assertEqual(d[&apos;key&apos;], &apos;value&apos;)
+
+    def test_keyerror(self):
+    d = Dict()
+    with self.assertRaises(KeyError):
+        value = d[&apos;empty&apos;]
+
+    def test_attrerror(self):
+        d = Dict()
+        with self.assertRaises(AttributeError):
+            value = d.empty
+</code></pre><p>详解:</p>
+<ol>
+<li>编写单元测试时,需要引入python自带模块unittest模块;</li>
+<li>编写单元测试是,需要定义一个测试类,从unittest.TestCase继承;</li>
+<li>在测试类中,测试方法都是以test开头的,不以test开头的方法不被认为是测试方法,在测试的时候不会被执行.</li>
+<li>unittest.TestCase类提供了很多内置的条件判断.</li>
+</ol>
+<p>常用的判断条件如下:</p>
+<pre><code>self.assertEqual(abs(-1), 1)  # 断言函数返回值与1相等
+
+with self.assertRaises(KeyError):
+    value = d[&apos;empty&apos;]  # 当d[&apos;empty&apos;]不存在key时,抛出KeyError异常.
+
+with self.assertRaises(AttributeError):
+    value = d.empty  # 当d.empty访问不存在的key时,抛出AttributeError异常
+</code></pre><h4 id="运行单元测试"><a href="#运行单元测试" class="headerlink" title="运行单元测试"></a>运行单元测试</h4><p>编写好单元测试是,接下来便是运行单元测试.运行单元测试的方法如下:</p>
+<ol>
+<li><p>最简单的方法就是直接运行mydict_test.py文件,但是要在文件末尾添加两行代码:</p>
+<p> if <strong>name</strong> == ‘<strong>main</strong>‘:</p>
+<pre><code>unittest.main()
+</code></pre></li>
+</ol>
+<p>这样就可以把mydict_test.py当做正常的python脚本运行.</p>
+<ol start="2">
+<li>在命令行通过参数-m unittest直接运行单元测试:</li>
+</ol>
+<p>示例如下:</p>
+<pre><code>$python -m unittest mydict_test
+...
+-------------------
+Ran 5 tests in 0.000s
+
+ok
+</code></pre><p>第二种方法是比较推荐的方法,因为此种方法可以一次批量运行很多单元测试,并且,有很多工具可以自动来运行这些单元测试.</p>
+<h4 id="setUp和tearDown"><a href="#setUp和tearDown" class="headerlink" title="setUp和tearDown"></a>setUp和tearDown</h4><p>在单元测试中,可以编写两个特殊的方法:setUp()和tearDown().这两个方法会分别在每次调用一个测试方法的前后被执行.</p>
+<p><strong>作用</strong></p>
+<p>假设一种场景,在测试的时候需要连接数据库,这时,就可以在setUP()方法中连接数据库,在tearDown()方法中关闭数据库,这样不必在每个测试方法中重复相同的代码.</p>
+
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python模块/" rel="tag"># python模块</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/11/ubuntu-环境变量/" rel="next" title="ubuntu 环境变量">
+                <i class="fa fa-chevron-left"></i> ubuntu 环境变量
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -355,8 +590,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -430,6 +674,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试单元实例"><span class="nav-number">2.</span> <span class="nav-text">测试单元实例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#运行单元测试"><span class="nav-number">3.</span> <span class="nav-text">运行单元测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#setUp和tearDown"><span class="nav-number">4.</span> <span class="nav-text">setUp和tearDown</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
