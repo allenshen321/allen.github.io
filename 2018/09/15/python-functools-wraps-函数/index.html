@@ -127,7 +127,7 @@
 
 
 
-  <title>flaskweb开发,大型程序的结构 | allen's blog</title>
+  <title>python-functools.wraps()函数 | allen's blog</title>
   
 
 
@@ -308,7 +308,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/11/flaskweb开发-大型程序的结构/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/15/python-functools-wraps-函数/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="allen">
@@ -325,7 +325,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">flaskweb开发,大型程序的结构</h1>
+          <h1 class="post-title" itemprop="name headline">python-functools.wraps()函数</h1>
         
 
         <div class="post-meta">
@@ -337,7 +337,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-11T00:20:44+08:00">2018-09-11</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-15T15:59:35+08:00">2018-09-15</time>
             
 
             
@@ -358,8 +358,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/flask/" itemprop="url" rel="index">
-                    <span itemprop="name">flask</span>
+                  <a href="/categories/python基础/" itemprop="url" rel="index">
+                    <span itemprop="name">python基础</span>
                   </a>
                 </span>
 
@@ -395,42 +395,68 @@
       
 
       
-        <h4 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h4><p>虽然flask并不强制要求大型项目使用特定的组织形式,程序结构的组织形式方式完全由开发者决定.下面介绍一种由包和模块组织的大型程序的方式.</p>
-<p><strong>多文件Flask程序的基本结构</strong></p>
-<pre><code>|-flasky
-    |-app/
-        |-templates/
-        |-static/
-        |-main/
-            |-__init__.py
-            |-errors.py
-            |-forms.py
-            |-views.py
-        |-__init__.py
-        |-email.py
-        |-models.py
-    |-migrations/
-    |-tests/
-        |-__init__.py
-        |-test*.py
-    |-venv/
-    |-requirments.txt
-    |-config.py
-    |-manage.py
+        <h4 id="functools-wraps-作用"><a href="#functools-wraps-作用" class="headerlink" title="functools.wraps()作用"></a>functools.wraps()作用</h4><p>functools.wraps()函数可以将原函数对象的指定属性复制给包装函数对象,包含<strong>module</strong>,<strong>name</strong>,<strong>doc</strong>或者通过参数选择.常用于装饰器中.</p>
+<h4 id="装饰器作用过程"><a href="#装饰器作用过程" class="headerlink" title="装饰器作用过程"></a>装饰器作用过程</h4><h5 id="1-两层嵌套"><a href="#1-两层嵌套" class="headerlink" title="1.两层嵌套"></a>1.两层嵌套</h5><p>示例:</p>
+<pre><code>def log(func):
+def wrapper(*args, **kw):
+    print(&apos;call %s():&apos; % func.__name__)
+    return func(*args, **kw)
+return wrapper
+
+@log
+def now():
+    print(&apos;2015-3-25&apos;)
+
+&gt;&gt;&gt; now()
+call now():
+2015-3-25
 </code></pre><a id="more"></a>
-<p>在项目结构中,如上图所示,有4个顶级文件夹和一些文件组成:</p>
-<p><strong>4个顶级文件夹</strong></p>
+<p>上例中,相关说明:</p>
 <ol>
-<li>app:Flask程序一般都保存在app包中.包括模板文件,静态文件,蓝本文件,email功能,模型.</li>
-<li>migrations: 数据库迁移脚本.</li>
-<li>tests: 单元测试模块</li>
-<li>venv: 包含pyhton虚拟环境</li>
+<li>把@log放到now()函数的定义处，相当于执行了语句：now = log(now).</li>
+<li>由于log()是一个decorator，返回一个函数，所以，原来的now()函数仍然存在，只是现在同名的now变量指向了新的函数，于是调用now()将执行新函数，即在log()函数中返回的wrapper()函数。</li>
+<li>wrapper()函数的参数定义是(*args, **kw)，因此，wrapper()函数可以接受任意参数的调用。在wrapper()函数内，首先打印日志，再紧接着调用原始函数。</li>
 </ol>
-<p><strong>文件</strong></p>
-<ol>
-<li>requirments.txt: 列出了程序运行环境所需要的依赖包,便于生成和开发环境相同的虚拟环境.</li>
-<li>config.py: 配置文件.</li>
-<li>manage.py: 用于启动程序及其他程序任务.</li>
+<h5 id="2-三层嵌套"><a href="#2-三层嵌套" class="headerlink" title="2.三层嵌套"></a>2.三层嵌套</h5><p>如果decorator本身需要传入参数，那就需要编写一个返回decorator的高阶函数，写出来会更复杂。比如，要自定义log的文本：示例如下:</p>
+<pre><code>def log(text):
+    def decorator(func):
+        def wrapper(*args, **kw):
+            print(&apos;%s %s():&apos; % (text, func.__name__))
+            return func(*args, **kw)
+        return wrapper
+    return decorator
+
+@log(&apos;execute&apos;)
+def now():
+    print(&apos;2015-3-25&apos;)
+
+# 执行结果
+&gt;&gt;&gt; now()
+execute now():
+2015-3-25
+</code></pre><p>和两层嵌套的decorator相比，3层嵌套的效果是这样的：</p>
+<pre><code>&gt;&gt;&gt; now = log(&apos;execute&apos;)(now)
+</code></pre><p><strong>执行顺序如下:</strong></p>
+<p>首先执行log(‘execute’)，返回的是decorator函数，再调用返回的函数，参数是now函数，返回值最终是wrapper函数。</p>
+<p><strong>问题</strong></p>
+<p>以上两种decorator的定义都没有问题，但还差最后一步。因为我们讲了函数也是对象，它有<strong>name</strong>等属性，但你去看经过decorator装饰之后的函数，它们的<strong>name</strong>已经从原来的’now’变成了’wrapper’：</p>
+<pre><code>&gt;&gt;&gt; now.__name__
+&apos;wrapper&apos;
+</code></pre><p><strong>原因</strong></p>
+<p>因为返回的那个wrapper()函数名字就是’wrapper’，所以，需要把原始函数的<strong>name</strong>等属性复制到wrapper()函数中，否则，有些依赖函数签名的代码执行就会出错。</p>
+<p><strong>解决方法</strong></p>
+<p>不需要编写wrapper.<strong>name</strong> = func.<strong>name</strong>这样的代码，Python内置的functools.wraps就是干这个事的，所以，一个完整的decorator的写法如下：</p>
+<pre><code>import functools
+
+def log(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kw):
+        print(&apos;call %s():&apos; % func.__name__)
+        return func(*args, **kw)
+    return wrapper
+</code></pre><h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><ol>
+<li>在面向对象（OOP）的设计模式中，decorator被称为装饰模式。OOP的装饰模式需要通过继承和组合来实现，而Python除了能支持OOP的decorator外，直接从语法层次支持decorator。Python的decorator可以用函数实现，也可以用类实现。</li>
+<li>decorator可以增强函数的功能，定义起来虽然有点复杂，但使用起来非常灵活和方便。</li>
 </ol>
 
       
@@ -449,7 +475,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/flask/" rel="tag"># flask</a>
+            <a href="/tags/python模块/" rel="tag"># python模块</a>
           
         </div>
       
@@ -462,8 +488,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/09/08/flask-web表单/" rel="next" title="flask web表单">
-                <i class="fa fa-chevron-left"></i> flask web表单
+              <a href="/2018/09/12/python-单元测试模块unittest/" rel="next" title="python 单元测试模块unittest">
+                <i class="fa fa-chevron-left"></i> python 单元测试模块unittest
               </a>
             
           </div>
@@ -471,10 +497,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/09/11/flask-web开发-配置选项/" rel="prev" title="flask web开发-配置选项">
-                flask web开发-配置选项 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -620,7 +642,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#项目结构"><span class="nav-number">1.</span> <span class="nav-text">项目结构</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#functools-wraps-作用"><span class="nav-number">1.</span> <span class="nav-text">functools.wraps()作用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#装饰器作用过程"><span class="nav-number">2.</span> <span class="nav-text">装饰器作用过程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-两层嵌套"><span class="nav-number">2.1.</span> <span class="nav-text">1.两层嵌套</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-三层嵌套"><span class="nav-number">2.2.</span> <span class="nav-text">2.三层嵌套</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>
