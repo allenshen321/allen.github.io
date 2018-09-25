@@ -127,7 +127,7 @@
 
 
 
-  <title>分类: 爬虫实战 | allen's blog</title>
+  <title>flask-工厂函数和蓝本 | allen's blog</title>
   
 
 
@@ -156,7 +156,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -294,55 +294,255 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block category">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>爬虫实战<small>分类</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/23/flask-工厂函数/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="allen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="allen's blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2018/06/20/爱回收爬虫实战，爱回收网站js请求过程分析/" itemprop="url">
-              
-                <span itemprop="name">'爱回收爬虫实战，爱回收网站js请求过程分析'</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">flask-工厂函数和蓝本</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-06-20T18:22:28+08:00"
-              content="2018-06-20" >
-          06-20
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-23T16:20:50+08:00">2018-09-23</time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/flask/" itemprop="url" rel="index">
+                    <span itemprop="name">flask</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="工厂函数"><a href="#工厂函数" class="headerlink" title="工厂函数"></a>工厂函数</h4><p>在flask web开发中,通常我们需要创建不同配置环境下的实例,以便能够在不同配置文件下运行程序.这时候工厂函数可以实现这个功能,工厂函数可以返回不同配置的实例,具体返回那个配置文件的实例,由用户传入的不同配置文件参数来决定.</p>
+<p><strong>代码示例</strong></p>
+<ol>
+<li><p>创建不同配置环境下的Flask()实例</p>
+<p> from flask import Flask</p>
+<p> def create_app(‘config_name’)</p>
+<pre><code>app = Flask(__name__)
+app.config.from_object(&apos;config_name&apos;)
+
+return app
+</code></pre><ol>
+<li>返回的是config_name配置下的Flask()实例app.</li>
+<li>配置文件通过Flask app.config.from_object()方法,直接导入到程序中.</li>
+</ol>
+</li>
+</ol>
+<a id="more"></a>
+<ol start="2">
+<li><p>在工厂函数中加入flask扩展</p>
+<pre><code>from flask import Flask
+from flask.ext.Bootstrap import Boostrap
+
+bootstrap = Bootstrap()
+
+def create_app(&apos;config_name&apos;)
+    app = Flask(__name__)
+    app.config.from_object(&apos;config_name&apos;)
+
+    bootstrap.init_app(app)
+
+    # 返回配置好的Flask()实例app
+    return app
+</code></pre><ol>
+<li>flask的扩展程序,需要先建立全局的实例,然后在工厂函数中,Flask()程序创建并配置好后,再初始化扩展程序,初始化扩展程序直接调用.init_app()方法即可完成扩展程序的初始化.</li>
+<li>**由于Flask实例对象是在函数工厂中创建的,所以这时候创建的实例app是在运行时创建的,只有在调用create_app函数后,才能使用app.route()配置路由,但是此时配置路由就晚了. 为了解决这个问题,Flask的蓝图功能Blueprint需要注册到工厂函数中.</li>
+</ol>
+</li>
+<li><p>在工厂函数中注册蓝图.例如:蓝本是main</p>
+<pre><code>from flask import Flask
+from flask.ext.bootstrap import Bootstrap
+
+bootstrap = Bootstrap()
+
+def create_app(&apos;config_name&apos;):
+    app = Flask(__name__)
+    app.config.from_object(&apos;config_name&apos;)
+
+    # 加入扩展
+    bootstrap.init_app(app)
+
+    # 注册蓝图
+    from .main import main as main_blueprint
+    app.register_blueprint(main_blueprint)
+
+    return app
+</code></pre><ol>
+<li>这样工厂函数的功能就完整了,程序的视图函数在蓝本中定义,其中可以包扩路由和错误文件的定义等等.</li>
+</ol>
+</li>
+</ol>
+<h4 id="flask中的蓝图"><a href="#flask中的蓝图" class="headerlink" title="flask中的蓝图"></a>flask中的蓝图</h4><p>蓝图中定义的路由处于休眠状态,直到蓝图注册到程序上后,路由才能真正的成为程序的一部分.一个程序中可以有多个蓝图,用来实现不同功能的路由.</p>
+<h5 id="蓝图的创建"><a href="#蓝图的创建" class="headerlink" title="蓝图的创建"></a>蓝图的创建</h5><p>蓝图保存在程序包中的一个子包.在子包中的构造文件中创建蓝图.</p>
+<pre><code>from flask import Blueprint
+
+main = Blueprint(&apos;main&apos;, __name__)
+
+from . import views, errors
+</code></pre><ol>
+<li>通过实例化一个Blueprint()对象来创建蓝图,Blueprint()中有两个参数,一个是蓝图名,一般情况下和蓝图包名一样,第二个参数是蓝图所在的包和模块,一般写python中<strong>name</strong>变量即可.</li>
+<li>在构造文件的末尾还必须导入路由视图和错误处理程序,以将蓝图和路由,错误处理文件关联起来.</li>
+<li>在末尾导入路由和错误处理文件是为了防止循环导入模块,因为在路由和错误处理程序中也要导入蓝图.</li>
+</ol>
+<h5 id="在蓝图中实现程序的功能"><a href="#在蓝图中实现程序的功能" class="headerlink" title="在蓝图中实现程序的功能"></a>在蓝图中实现程序的功能</h5><p>在蓝图中编写错误处理程序和路由程序中,<strong>首先要导入蓝图</strong>,在编写中的不同有:</p>
+<p><strong>编写错误程序时的不同</strong></p>
+<p>在蓝图中编写错误处理程序中, 修饰器要使用app_errorhandler, 而不是errorhandler.两者的区别是:errorhandler的作用域是蓝图中,而app_errorhandler的作用域是整个程序.</p>
+<pre><code>from . import main  # main是蓝图名
+
+@main.app_errorhandler(404)
+def page_not_found(e):
+    ...
+</code></pre><p><strong>编写视图函数时的不同</strong></p>
+<ol>
+<li>修饰器由蓝图提供.</li>
+<li>url_for() 函数的第一个参数是端点名,也就是视图函数名,在蓝图中前面要加上蓝图的名字,表示此蓝图中的视图.</li>
+</ol>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/flask-web开发/" rel="tag"># flask-web开发</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/22/网络编程-tcp/" rel="next" title="网络编程-tcp">
+                <i class="fa fa-chevron-left"></i> 网络编程-tcp
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/23/flask-用户认证系统/" rel="prev" title="flask-用户认证系统">
+                flask-用户认证系统 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -350,6 +550,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -370,8 +574,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -445,6 +658,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#工厂函数"><span class="nav-number">1.</span> <span class="nav-text">工厂函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#flask中的蓝图"><span class="nav-number">2.</span> <span class="nav-text">flask中的蓝图</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#蓝图的创建"><span class="nav-number">2.1.</span> <span class="nav-text">蓝图的创建</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#在蓝图中实现程序的功能"><span class="nav-number">2.2.</span> <span class="nav-text">在蓝图中实现程序的功能</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -568,6 +797,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.0"></script>
+
+
 
   
 

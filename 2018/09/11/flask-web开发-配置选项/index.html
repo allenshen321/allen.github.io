@@ -395,13 +395,37 @@
       
 
       
-        <h4 id="配置选项"><a href="#配置选项" class="headerlink" title="配置选项"></a>配置选项</h4><p>程序经常需要多个配置,比如在开发.测试.生产环境使用不同的数据库,这样才不会影响.</p>
+        <h4 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h4><p>程序经常需要多个配置,比如在开发.测试.生产环境使用不同的数据库,这样才不会影响.</p>
 <p>在程序的结构文件中,config.py文件的内容示例如下:</p>
 <pre><code>import os
 
-
 class Config:
-</code></pre>
+    &quot;&quot;&quot;基类配置文件&quot;&quot;&quot;
+    pass
+
+class DevelopmentConfig(Config):
+    &quot;&quot;&quot;开发环境配置文件&quot;&quot;&quot;
+    pass
+...
+
+config = {
+    &apos;development&apos;: DevelopmentConfig,
+    ...
+
+    &apos;default&apos;: DevelopmentConfig
+    }
+</code></pre><ol>
+<li>配置文件中，可以定义一个基类配置文件，用以定义各环境通用的配置，接下来可以定义不同环境下的配置文件．其继承基类的配置文件．</li>
+<li>配置文件中,如果有些选项比较私密,比如密码类的,可以在环境变量中定义,在配置文件中,从环境变量中获取.</li>
+<li>在配置文件的末尾可以配置不同的配置环境,config字典, 其中注册了一个默认配置.</li>
+<li>配置文件中,配置选项只有全部字母是大写的变量才能被配置对象使用.所以在配置文件中,配置变量务必是全部大写.</li>
+<li><p>如上例所示,采用基类和类的继承来配置配置选项,那么在导入到app程序时,必须使用from_object()的方式导入配置文件.</p>
+<pre><code>app = Flask(__name__)
+app.config.from_object(config[&apos;development&apos;])
+# 导入开发环境的配置
+</code></pre></li>
+</ol>
+
       
     </div>
     
@@ -418,7 +442,7 @@ class Config:
       
         <div class="post-tags">
           
-            <a href="/tags/flask/" rel="tag"># flask</a>
+            <a href="/tags/flask-web开发/" rel="tag"># flask-web开发</a>
           
         </div>
       
@@ -524,7 +548,7 @@ class Config:
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -546,7 +570,7 @@ class Config:
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -589,7 +613,7 @@ class Config:
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#配置选项"><span class="nav-number">1.</span> <span class="nav-text">配置选项</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#配置文件"><span class="nav-number">1.</span> <span class="nav-text">配置文件</span></a></li></ol></div>
             
 
           </div>
