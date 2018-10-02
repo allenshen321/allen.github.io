@@ -478,10 +478,82 @@ with self.assertRaises(KeyError):
 
 with self.assertRaises(AttributeError):
     value = d.empty  # 当d.empty访问不存在的key时,抛出AttributeError异常
-</code></pre><h4 id="运行单元测试"><a href="#运行单元测试" class="headerlink" title="运行单元测试"></a>运行单元测试</h4><p>编写好单元测试是,接下来便是运行单元测试.运行单元测试的方法如下:</p>
+</code></pre><h4 id="运行单元测试"><a href="#运行单元测试" class="headerlink" title="运行单元测试"></a>运行单元测试</h4><h5 id="unittest-TestLoader-类的几种加载testcase的方法"><a href="#unittest-TestLoader-类的几种加载testcase的方法" class="headerlink" title="unittest.TestLoader()类的几种加载testcase的方法"></a>unittest.TestLoader()类的几种加载testcase的方法</h5><p>测试目录结构为:</p>
+<pre><code>tests  # 测试文件夹
+    |-test_model.py  # 测试文件
+        |-UserModelTestCase(unittest.TestCase)  # test类
+            |-test_case1()  # 测试方法1
+            |-test_case2()    # 测试方法2
+</code></pre><p>unittest.TestLoader()类提供了几种创建test_suit的方法</p>
+<table>
+<thead>
+<tr>
+<th>测试方法</th>
+<th>参数</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TestLoader().loadTestsFromTestCase(testCaseClass)</td>
+<td>testCaseClass必须是TestCase的子类.</td>
+<td>加载testCase类</td>
+</tr>
+<tr>
+<td>TestLoader().loadTestsFromTestCase(‘test_model.UserModelTestCase’)</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>TestLoader().loadTestsFromModule(module, pattern=None)</td>
+<td>test case所在的模块.</td>
+<td>加载测试类所在的py文件.</td>
+</tr>
+<tr>
+<td>.loadTestsFromModule(‘test_model’)</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>TestLoader().loadTestsFromName(name, module=None)</td>
+<td>name是一个字符串,其格式是”module.class.method”</td>
+<td>加载测试方法</td>
+</tr>
+<tr>
+<td>.loadTestsFromName(‘test_model.UserModelTestCase.test_case1’)</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>TestLoader().loadTestsFromNames(name, module=None)</td>
+<td>name是一个测试方法的列表,其中元素的格式同3.</td>
+<td>通过列表加载多个测试方法</td>
+</tr>
+<tr>
+<td>.loadTestsFromNames([‘test_model.UserModelTestCase.test_case1’, ‘test_model.UserModelTestCase.test_case2’])</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>TestLoader().discover(start_dir, pattern=’test*.py’, top_level_dir=None)</td>
+<td>从包含测试py文件的文件夹,加载test cases.</td>
+<td>通过测试模块所在文件夹加载其中的模块</td>
+</tr>
+<tr>
+<td>.discover(‘tests’)</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<p><strong>test_suit运行方法</strong></p>
+<pre><code>unittest.TestTestRunner.run(testSuite)
+参数:
+    testSuite: 是一个TestSuite实例,或者是TestCase实例.
+</code></pre><h5 id="运行方法-两种"><a href="#运行方法-两种" class="headerlink" title="运行方法,两种"></a>运行方法,两种</h5><p>编写好单元测试是,接下来便是运行单元测试.运行单元测试的方法如下:</p>
 <ol>
 <li><p>最简单的方法就是直接运行mydict_test.py文件,但是要在文件末尾添加两行代码:</p>
-<p> if <strong>name</strong> == ‘<strong>main</strong>‘:</p>
+<p> if __name__ == ‘__main__’:</p>
 <pre><code>unittest.main()
 </code></pre></li>
 </ol>
@@ -688,7 +760,7 @@ ok
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试单元实例"><span class="nav-number">2.</span> <span class="nav-text">测试单元实例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#运行单元测试"><span class="nav-number">3.</span> <span class="nav-text">运行单元测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#setUp和tearDown"><span class="nav-number">4.</span> <span class="nav-text">setUp和tearDown</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试单元实例"><span class="nav-number">2.</span> <span class="nav-text">测试单元实例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#运行单元测试"><span class="nav-number">3.</span> <span class="nav-text">运行单元测试</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#unittest-TestLoader-类的几种加载testcase的方法"><span class="nav-number">3.1.</span> <span class="nav-text">unittest.TestLoader()类的几种加载testcase的方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#运行方法-两种"><span class="nav-number">3.2.</span> <span class="nav-text">运行方法,两种</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#setUp和tearDown"><span class="nav-number">4.</span> <span class="nav-text">setUp和tearDown</span></a></li></ol></div>
             
 
           </div>
