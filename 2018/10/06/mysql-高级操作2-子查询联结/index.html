@@ -127,7 +127,7 @@
 
 
 
-  <title>ubuntu部署hexo博客踩到的坑 | allen's blog</title>
+  <title>mysql-高级操作2-子查询联结 | allen's blog</title>
   
 
 
@@ -308,7 +308,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/08/ubuntu部署hexo博客踩到的坑/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/06/mysql-高级操作2-子查询联结/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="allen">
@@ -325,7 +325,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">ubuntu部署hexo博客踩到的坑</h1>
+          <h1 class="post-title" itemprop="name headline">mysql-高级操作2-子查询联结</h1>
         
 
         <div class="post-meta">
@@ -337,7 +337,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-08T18:14:06+08:00">2018-09-08</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-06T16:58:09+08:00">2018-10-06</time>
             
 
             
@@ -358,8 +358,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/hexo/" itemprop="url" rel="index">
-                    <span itemprop="name">hexo</span>
+                  <a href="/categories/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
                   </a>
                 </span>
 
@@ -395,52 +395,7 @@
       
 
       
-        <p>之前的博客在win10上部署的,经常在linux系统学习,这样写博客的时候还得在win电脑上写,很是不方便,所以便想着把博客迁移到ubuntu系统上.</p>
-<h4 id="搭建hexo博客必备的软件"><a href="#搭建hexo博客必备的软件" class="headerlink" title="搭建hexo博客必备的软件"></a>搭建hexo博客必备的软件</h4><table>
-<thead>
-<tr>
-<th>软件</th>
-<th>安装方式</th>
-<th>检测是否成功</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>git</td>
-<td>sudo apt-get install git-core</td>
-<td>git –version</td>
-</tr>
-<tr>
-<td>npm(node包管理工具)</td>
-<td>sudo apt-get install npm</td>
-<td>npm –version</td>
-</tr>
-<tr>
-<td>nodejs</td>
-<td>sudo apt-get install nodejs</td>
-<td>node -v</td>
-</tr>
-<tr>
-<td>hexo</td>
-<td>sudo npm install -g hexo</td>
-<td>hexo -v</td>
-</tr>
-<tr>
-<td>hexo-deployer-git</td>
-<td>sudo npm install hexo-deployer-git –save</td>
-</tr>
-</tbody>
-</table>
-<a id="more"></a>
-<p>详细的教程请移步:</p>
-<p><a href="https://blog.csdn.net/lyb3b3b/article/details/78706077" target="_blank" rel="noopener">https://blog.csdn.net/lyb3b3b/article/details/78706077</a></p>
-<h4 id="猜到的坑"><a href="#猜到的坑" class="headerlink" title="猜到的坑"></a>猜到的坑</h4><p>今天一切安装好了,结果在部署到github上时出了问题,在终端输入hexo d时,出现一下错误:</p>
-<pre><code>ERROR Deployer not found: git
-</code></pre><p>赶紧谷歌,找了一圈都是hexo-deployer-git插件的问题,缺少这个插件,按照上面方法安装,出错,被迫用淘宝镜像安装,请自行百度.按照网上的方法安装完之后还是会出错.在网上找了一圈之后,发现hexo-server有可能有问题.重新安装.</p>
-<pre><code>sudo npm install hexo-server -g
-</code></pre><p>安装之后,再次部署到github,这次就可能成功了.</p>
-<p>至此,问题完美解决.</p>
-
+        
       
     </div>
     
@@ -457,7 +412,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/hexo部署/" rel="tag"># hexo部署</a>
+            <a href="/tags/mysql/" rel="tag"># mysql</a>
           
         </div>
       
@@ -470,8 +425,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/09/08/函数式编程学习/" rel="next" title="函数式编程学习">
-                <i class="fa fa-chevron-left"></i> 函数式编程学习
+              <a href="/2018/10/04/mysql-高级操作1-函数的使用/" rel="next" title="mysql-高级操作1-函数的使用">
+                <i class="fa fa-chevron-left"></i> mysql-高级操作1-函数的使用
               </a>
             
           </div>
@@ -479,10 +434,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/09/08/flask-web表单/" rel="prev" title="flask web表单">
-                flask web表单 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -534,17 +485,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -618,22 +560,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#搭建hexo博客必备的软件"><span class="nav-number">1.</span> <span class="nav-text">搭建hexo博客必备的软件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#猜到的坑"><span class="nav-number">2.</span> <span class="nav-text">猜到的坑</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

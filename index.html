@@ -309,6 +309,145 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/06/mysql-高级操作2-子查询联结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="allen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="allen's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/06/mysql-高级操作2-子查询联结/" itemprop="url">mysql-高级操作2-子查询联结</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-06T16:58:09+08:00">2018-10-06</time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/04/mysql-高级操作1-函数的使用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -552,8 +691,7 @@
 
       
         
-          
-            <h4 id="mysql常用命令"><a href="#mysql常用命令" class="headerlink" title="mysql常用命令"></a>mysql常用命令</h4><h5 id="1-show命令来查看数据库信息"><a href="#1-show命令来查看数据库信息" class="headerlink" title="1. show命令来查看数据库信息"></a>1. show命令来查看数据库信息</h5><table>
+          <h4 id="mysql常用命令"><a href="#mysql常用命令" class="headerlink" title="mysql常用命令"></a>mysql常用命令</h4><h5 id="1-show命令来查看数据库信息"><a href="#1-show命令来查看数据库信息" class="headerlink" title="1. show命令来查看数据库信息"></a>1. show命令来查看数据库信息</h5><table>
 <thead>
 <tr>
 <th>命令</th>
@@ -591,129 +729,13 @@
 </tr>
 </tbody>
 </table>
-<h5 id="2-简单查询数据"><a href="#2-简单查询数据" class="headerlink" title="2. 简单查询数据"></a>2. 简单查询数据</h5><table>
-<thead>
-<tr>
-<th>命令</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>select columnName1, columnName2… from tableName;</td>
-<td>从表中检索列1, 列2…</td>
-</tr>
-<tr>
-<td>select * from tableName;</td>
-<td>从表中查询所有的列</td>
-</tr>
-<tr>
-<td>select distinct 列1 from tableName;</td>
-<td>返回列1中,各行的值都不同, 不能部分使用distinct</td>
-</tr>
-<tr>
-<td>select 列1, 列2… from tableName limit num1,num2;</td>
-<td>返回从num1 开始的num2行, 如果只有一个数,则从第0行开始</td>
-</tr>
-</tbody>
-</table>
-<p><strong>注意点</strong></p>
-<ol>
-<li><p>在select <em> from tableName;语句中,除非你确实需要表中的每个列,否则最好别使用 </em> 通配符。虽然使用通配符可能会使你自己省事,不用明确列出所需列,但检索不需要的列通常会降低检索和应用程序的性能。</p>
-</li>
-<li><p>select 语句使用的distinct,<strong>不能部分使用distinct</strong>,distinct应用于所有的列而不仅是前置它的列,如果给出select distinct 列1, 列2 from 表名;除非制定的两个列都不同,否则所有的行都被检索出来.</p>
-</li>
-<li><p>sql语句中可以完全限定一个列和表,只需在列或表名前面指定相应的表或数据库即可,例如:tableName.column1, databaseName.tableName, 限定为tableName中的column1.</p>
-</li>
-</ol>
-<h5 id="3-排序order-by语句"><a href="#3-排序order-by语句" class="headerlink" title="3. 排序order by语句"></a>3. 排序order by语句</h5><p>order by 语句对检索出来的数据进行排序,这个子句必须放在selext 语句的最后一条.</p>
-<p>语句:    </p>
-<pre><code>select 列1, 列2... from tableName order by 列1, 列3 DESC;
-</code></pre><p>解读:</p>
-<ol>
-<li><p>该句的功能是从表名中选取列1和列2, 在检索出的结果中先按列1进行升序排序,然后在之前排序的基础上再按照列3降序排序.最终的到检索结果.</p>
-</li>
-<li><p>如果相对多个列进行降序排序则必须每个列后面都加DESC关键子.表示降序.</p>
-</li>
-</ol>
-<h5 id="4-过滤数据where语句"><a href="#4-过滤数据where语句" class="headerlink" title="4.过滤数据where语句."></a>4.过滤数据where语句.</h5><p>where 语句根据写的条件对数据进行过滤,这个子句放在表名(from子句)之后.</p>
-<p>句法:</p>
-<pre><code>select 列1, 列2... from tableName where 条件 order by lie1, 列3 DESC;
-</code></pre><p>解读:</p>
-<ol>
-<li><p>where语句和order by语句共用时, order by语句放在后面;</p>
-</li>
-<li><p>where语句中有两个表示不等于的字符’&lt;&gt;’和’!=’,相同点是都表示不等于,不同的是’&lt;&gt;’是sql标准语句,而’!=’是非标准.参考:<a href="https://stackoverflow.com/questions/14159569/what-is-the-difference-between-and-operators-in-mysql" target="_blank" rel="noopener">https://stackoverflow.com/questions/14159569/what-is-the-difference-between-and-operators-in-mysql</a></p>
-</li>
-<li><p>在数据库中有个特殊的NULL,它于字段包含0,空字符串或仅仅包含空格不同.通过它过滤是需要用到特殊的where子句:</p>
-<p> select * from tableName where column is null;</p>
-</li>
-</ol>
-<p><strong>where高级用法</strong></p>
-<ol>
-<li><p>and和or逻辑运算符,</p>
-<ul>
-<li><p>在SQL(像多数语言一样)在处理 OR 操作符前,优先处理 AND 操作符。</p>
-</li>
-<li><p>任何时候使用具有 AND 和 OR 操作符的 WHERE 子句,都应该使用圆括号明确地分组操作符。不要过分依赖默认计算次序,即使它确实是你想要的东西也是如此。使用圆括号没有什么坏处,它能消除歧义。</p>
-</li>
-</ul>
-</li>
-<li><p>in操作符</p>
-<ul>
-<li>in操作符用来指定条件范围,范围中的每个条件都可以进行匹配.IN 取合法值的由逗号分隔的清单,全都括在圆括号中。</li>
-<li><p>相比or操作符的有点:</p>
-<p>  (1)在使用长的合法选项清单时, IN 操作符的语法更清楚且更直观。</p>
-<p>  (2)在使用 IN 时,计算的次序更容易管理(因为使用的操作符更少)。</p>
-<p>  (3)IN 操作符一般比 OR 操作符清单执行更快。</p>
-<p>  (4)IN 的最大优点是可以包含其他 SELECT 语句,使得能够更动态地建立WHERE子句.</p>
-</li>
-</ul>
-</li>
-<li><p>not操作符</p>
-<p> not操作符表示否定它之后所跟的条件.</p>
-</li>
-</ol>
-<h5 id="通配符"><a href="#通配符" class="headerlink" title="通配符"></a>通配符</h5><table>
-<thead>
-<tr>
-<th>名称</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>%</td>
-<td>表示任何字符出现任意次数,可以0次, 可以在任意位置使用,也可以使用多个通配符.但是不可以匹配NULL</td>
-</tr>
-<tr>
-<td>下划线 _</td>
-<td>匹配单个字符</td>
-</tr>
-</tbody>
-</table>
-<p><strong>使用技巧</strong></p>
-<ol>
-<li><p>不要过度使用通配符。如果其他操作符能达到相同的目的,应该使用其他操作符。</p>
-</li>
-<li><p>在确实需要使用通配符时,除非绝对有必要,否则不要把它们用在搜索模式的开始处。把通配符置于搜索模式的开始处,搜索起来是最慢的。</p>
-</li>
-<li><p>仔细注意通配符的位置。如果放错地方,可能不会返回想要的数</p>
-</li>
-</ol>
-<h5 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h5><p>在mysql中的where子句中,还支持使用正则表达式匹配.这种用法和like相似,只是将关键字换成REGEXP,示例如下:</p>
-<pre><code>select * from tableName where 列1 regexp &apos;正则表达式&apos;;
-匹配结果是列1符合正则的行.
-</code></pre><h5 id="拼接字段concatennate"><a href="#拼接字段concatennate" class="headerlink" title="拼接字段concatennate"></a>拼接字段concatennate</h5><p>在mysql的select语句中,可以使用Concat()函数来拼接两个列,显示成帅选结果的一个列中.</p>
-<p>示例:</p>
-<pre><code>SELECT Concat(列1, &apos; (&apos;, 列2, &apos;)&apos;) as 新列名 FROM tableName;
-</code></pre><p>解析:</p>
-<pre><code>- 该语句在查询结果中,显示的是一列,该列名为新列名, 数据元素的格式是:列1 (列2).
-- Concat()需要1个或多个指定的串,各串之间用逗号分隔.
-- 上面的select语句中concat()函数连接了4各元素:列1, &apos; (&apos;, 列2, &apos;)&apos;.
-- 在列之后可以使用AS给列另起一个别名,在查询结果中,该列将以新列名显示.
-</code></pre>
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/10/03/mysql-常用命令总结/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1866,165 +1888,6 @@ s = socket(AddressFamily, Type)
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/15/python-functools-wraps-函数/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="allen">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="allen's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/15/python-functools-wraps-函数/" itemprop="url">python-functools.wraps()函数</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-15T15:59:35+08:00">2018-09-15</time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python基础/" itemprop="url" rel="index">
-                    <span itemprop="name">python基础</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h4 id="functools-wraps-作用"><a href="#functools-wraps-作用" class="headerlink" title="functools.wraps()作用"></a>functools.wraps()作用</h4><p>functools.wraps()函数可以将原函数对象的指定属性复制给包装函数对象,包含<strong>module</strong>,<strong>name</strong>,<strong>doc</strong>或者通过参数选择.常用于装饰器中.</p>
-<h4 id="装饰器作用过程"><a href="#装饰器作用过程" class="headerlink" title="装饰器作用过程"></a>装饰器作用过程</h4><h5 id="1-两层嵌套"><a href="#1-两层嵌套" class="headerlink" title="1.两层嵌套"></a>1.两层嵌套</h5><p>示例:</p>
-<pre><code>def log(func):
-def wrapper(*args, **kw):
-    print(&apos;call %s():&apos; % func.__name__)
-    return func(*args, **kw)
-return wrapper
-
-@log
-def now():
-    print(&apos;2015-3-25&apos;)
-
-&gt;&gt;&gt; now()
-call now():
-2015-3-25
-</code></pre>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/09/15/python-functools-wraps-函数/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2079,7 +1942,7 @@ call now():
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
