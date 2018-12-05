@@ -309,7 +309,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/06/mysql-高级操作2-子查询联结/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/22/flask-启动流程/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="allen">
@@ -328,7 +328,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/10/06/mysql-高级操作2-子查询联结/" itemprop="url">mysql-高级操作2-子查询联结</a></h1>
+                <a class="post-title-link" href="/2018/11/22/flask-启动流程/" itemprop="url">flask-启动流程</a></h1>
         
 
         <div class="post-meta">
@@ -340,7 +340,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-06T16:58:09+08:00">2018-10-06</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-22T21:27:24+08:00">2018-11-22</time>
             
 
             
@@ -361,8 +361,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/数据库/" itemprop="url" rel="index">
-                    <span itemprop="name">数据库</span>
+                  <a href="/categories/flask/" itemprop="url" rel="index">
+                    <span itemprop="name">flask</span>
                   </a>
                 </span>
 
@@ -399,9 +399,24 @@
 
       
         
-          
-            
-          
+          <h3 id="flask-核心依赖"><a href="#flask-核心依赖" class="headerlink" title="flask 核心依赖"></a>flask 核心依赖</h3><p>Flask 虽然是一个微型的Web框架，但是包含了web框架所必须的核心功能。Flask框架主要依赖两个库。</p>
+<ul>
+<li>Werkzeug ： 包含了路由、WSGI、调试的工具集。负责核心的逻辑模块。</li>
+<li>Jinja2 ：flask默认的模板引擎(可以替换为其他的，比如Mako).负责对模板的渲染。</li>
+</ul>
+<h4 id="Werkzeug"><a href="#Werkzeug" class="headerlink" title="Werkzeug"></a><a href="http://werkzeug.pocoo.org/" target="_blank" rel="noopener">Werkzeug</a></h4><p>werkzeug为flask提供的功能：</p>
+<ol>
+<li>路由处理：怎么根据请求的url找到对应的view（视图）处理函数</li>
+<li>对request和response的封装：可以更好的读取request的数据，也容易生成响应</li>
+<li>自带了一个WSGI server， 可以用来测试环境运行自己的应用</li>
+</ol>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/11/22/flask-启动流程/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1964,7 +1979,7 @@ s = socket(AddressFamily, Type)
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

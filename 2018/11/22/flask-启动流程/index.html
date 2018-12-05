@@ -127,7 +127,7 @@
 
 
 
-  <title>mysql-常用命令总结 | allen's blog</title>
+  <title>flask-启动流程 | allen's blog</title>
   
 
 
@@ -308,7 +308,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/03/mysql-常用命令总结/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/22/flask-启动流程/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="allen">
@@ -325,7 +325,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">mysql-常用命令总结</h1>
+          <h1 class="post-title" itemprop="name headline">flask-启动流程</h1>
         
 
         <div class="post-meta">
@@ -337,7 +337,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-03T16:38:58+08:00">2018-10-03</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-22T21:27:24+08:00">2018-11-22</time>
             
 
             
@@ -358,8 +358,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/数据库/" itemprop="url" rel="index">
-                    <span itemprop="name">数据库</span>
+                  <a href="/categories/flask/" itemprop="url" rel="index">
+                    <span itemprop="name">flask</span>
                   </a>
                 </span>
 
@@ -395,167 +395,290 @@
       
 
       
-        <h4 id="mysql常用命令"><a href="#mysql常用命令" class="headerlink" title="mysql常用命令"></a>mysql常用命令</h4><h5 id="1-show命令来查看数据库信息"><a href="#1-show命令来查看数据库信息" class="headerlink" title="1. show命令来查看数据库信息"></a>1. show命令来查看数据库信息</h5><table>
-<thead>
-<tr>
-<th>命令</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>show databases;</td>
-<td>显示所有可用的数据库</td>
-</tr>
-<tr>
-<td>show tables;</td>
-<td>显示当前数据库内可用的所有表</td>
-</tr>
-<tr>
-<td>desc tableName;</td>
-<td>显示表中的列定义的字段</td>
-</tr>
-<tr>
-<td>show status;</td>
-<td>显示广泛的服务器状态信息</td>
-</tr>
-<tr>
-<td>show create databaseName/tableName;</td>
-<td>显示创建数据库/表的Mysql语句</td>
-</tr>
-<tr>
-<td>show grants;</td>
-<td>显示授予用户的安全权限</td>
-</tr>
-<tr>
-<td>show errors/warnings;</td>
-<td>显示服务器错误/警告信息</td>
-</tr>
-</tbody>
-</table>
+        <h3 id="flask-核心依赖"><a href="#flask-核心依赖" class="headerlink" title="flask 核心依赖"></a>flask 核心依赖</h3><p>Flask 虽然是一个微型的Web框架，但是包含了web框架所必须的核心功能。Flask框架主要依赖两个库。</p>
+<ul>
+<li>Werkzeug ： 包含了路由、WSGI、调试的工具集。负责核心的逻辑模块。</li>
+<li>Jinja2 ：flask默认的模板引擎(可以替换为其他的，比如Mako).负责对模板的渲染。</li>
+</ul>
+<h4 id="Werkzeug"><a href="#Werkzeug" class="headerlink" title="Werkzeug"></a><a href="http://werkzeug.pocoo.org/" target="_blank" rel="noopener">Werkzeug</a></h4><p>werkzeug为flask提供的功能：</p>
+<ol>
+<li>路由处理：怎么根据请求的url找到对应的view（视图）处理函数</li>
+<li>对request和response的封装：可以更好的读取request的数据，也容易生成响应</li>
+<li>自带了一个WSGI server， 可以用来测试环境运行自己的应用</li>
+</ol>
 <a id="more"></a>
-<h5 id="2-简单查询数据"><a href="#2-简单查询数据" class="headerlink" title="2. 简单查询数据"></a>2. 简单查询数据</h5><table>
-<thead>
-<tr>
-<th>命令</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>select columnName1, columnName2… from tableName;</td>
-<td>从表中检索列1, 列2…</td>
-</tr>
-<tr>
-<td>select * from tableName;</td>
-<td>从表中查询所有的列</td>
-</tr>
-<tr>
-<td>select distinct 列1 from tableName;</td>
-<td>返回列1中,各行的值都不同, 不能部分使用distinct</td>
-</tr>
-<tr>
-<td>select 列1, 列2… from tableName limit num1,num2;</td>
-<td>返回从num1 开始的num2行, 如果只有一个数,则从第0行开始</td>
-</tr>
-</tbody>
-</table>
-<p><strong>注意点</strong></p>
-<ol>
-<li><p>在select <em> from tableName;语句中,除非你确实需要表中的每个列,否则最好别使用 </em> 通配符。虽然使用通配符可能会使你自己省事,不用明确列出所需列,但检索不需要的列通常会降低检索和应用程序的性能。</p>
-</li>
-<li><p>select 语句使用的distinct,<strong>不能部分使用distinct</strong>,distinct应用于所有的列而不仅是前置它的列,如果给出select distinct 列1, 列2 from 表名;除非制定的两个列都不同,否则所有的行都被检索出来.</p>
-</li>
-<li><p>sql语句中可以完全限定一个列和表,只需在列或表名前面指定相应的表或数据库即可,例如:tableName.column1, databaseName.tableName, 限定为tableName中的column1.</p>
-</li>
-</ol>
-<h5 id="3-排序order-by语句"><a href="#3-排序order-by语句" class="headerlink" title="3. 排序order by语句"></a>3. 排序order by语句</h5><p>order by 语句对检索出来的数据进行排序,这个子句必须放在selext 语句的最后一条.</p>
-<p>语句:    </p>
-<pre><code>select 列1, 列2... from tableName order by 列1, 列3 DESC;
-</code></pre><p>解读:</p>
-<ol>
-<li><p>该句的功能是从表名中选取列1和列2, 在检索出的结果中先按列1进行升序排序,然后在之前排序的基础上再按照列3降序排序.最终的到检索结果.</p>
-</li>
-<li><p>如果相对多个列进行降序排序则必须每个列后面都加DESC关键子.表示降序.</p>
-</li>
-</ol>
-<h5 id="4-过滤数据where语句"><a href="#4-过滤数据where语句" class="headerlink" title="4.过滤数据where语句."></a>4.过滤数据where语句.</h5><p>where 语句根据写的条件对数据进行过滤,这个子句放在表名(from子句)之后.</p>
-<p>句法:</p>
-<pre><code>select 列1, 列2... from tableName where 条件 order by lie1, 列3 DESC;
-</code></pre><p>解读:</p>
-<ol>
-<li><p>where语句和order by语句共用时, order by语句放在后面;</p>
-</li>
-<li><p>where语句中有两个表示不等于的字符’&lt;&gt;’和’!=’,相同点是都表示不等于,不同的是’&lt;&gt;’是sql标准语句,而’!=’是非标准.参考:<a href="https://stackoverflow.com/questions/14159569/what-is-the-difference-between-and-operators-in-mysql" target="_blank" rel="noopener">https://stackoverflow.com/questions/14159569/what-is-the-difference-between-and-operators-in-mysql</a></p>
-</li>
-<li><p>在数据库中有个特殊的NULL,它于字段包含0,空字符串或仅仅包含空格不同.通过它过滤是需要用到特殊的where子句:</p>
-<p> select * from tableName where column is null;</p>
-</li>
-</ol>
-<p><strong>where高级用法</strong></p>
-<ol>
-<li><p>and和or逻辑运算符,</p>
+<h4 id="Jinja2"><a href="#Jinja2" class="headerlink" title="Jinja2"></a><a href="http://jinja.pocoo.org/docs/2.9/" target="_blank" rel="noopener">Jinja2</a></h4><p>Jinja2 是Flask的默认引擎，功能非常丰富，支持unicode解析、自动HTML escape防止XSS攻击，继承、变量、过滤器、流程逻辑支持、python代码逻辑继承等等。</p>
+<h3 id="Flask应用启动流程"><a href="#Flask应用启动流程" class="headerlink" title="Flask应用启动流程"></a>Flask应用启动流程</h3><p>分析思路：首先看一个最小的应用开始，然后来分析一个应用程序都用到了Flask的那些功能，最后具体对应源码找到功能是如何实现的。</p>
+<p>下面先看号称世界上最小的应用：</p>
+<pre><code>from flask import Flask
+
+app = Flask(__name__)
+
+
+@app.route(&apos;/&apos;)
+def hello_world():
+    return &apos;Hello World！&apos;
+
+
+if __name__ == &apos;__main__&apos;:
+    app.run()
+</code></pre><p>整体来看，这段代码，只是建立了一个Flask()类的实例，并且传入了一个参数<strong>name</strong>.这个便是WSGI web应用部分，web应用实际上就是Flask类的实例。然后使用app.route装饰器实现了路由和view视图函数的匹配关系。最后通过app.run()实现web服务的启动。</p>
+<p>下面我们分别看看各功能是怎么实现的：</p>
 <ul>
-<li><p>在SQL(像多数语言一样)在处理 OR 操作符前,优先处理 AND 操作符。</p>
+<li>app = Flask(<strong>name</strong>), 建立Flask实例的时候，为什么要传入<strong>name</strong>的参数呢，这个参数有什么作用，带着这个问题，找下Flask这个类的实现过程。</li>
+</ul>
+<p>在源码flask文件夹的app.py文件中，定义了这个Flask核心的类Flask类。</p>
+<pre><code>class Flask(_PackageBoundObject):
+    def __init__(self, import_name,
+                 static_path=None,
+                 static_url_path=None,
+                 static_folder=&apos;static&apos;, 
+                 template_folder=&apos;templates&apos;,
+                 instance_path=None,
+                 instance_relative_config=False,
+                 root_path=None):
+        _PackageBoundObject.__init__(self, import_name,
+                                     template_folder=template_folder,
+                                     root_path=root_path)
+
+class _PackageBoundObject(object):
+    def __init__(self, import_name, template_folder=None, root_path=None):
+        #: The name of the package or module.  Do not change this once
+        #: it was set by the constructor.
+        self.import_name = import_name
+
+        #: location of the templates.  ``None`` if templates should not be
+        #: exposed.
+        self.template_folder = template_folder
+
+        if root_path is None:
+            root_path = get_root_path(self.import_name)
+
+        #: Where is the app root located?
+        self.root_path = root_path
+</code></pre><p>从源码中可见， Flask类继承_PachageBoundObject类，只有一个必要的参数，就是import_name,他接受包或者模块的名字，但是一般传递的是<strong>name</strong>.然后helpers.get_route_path函数，通过传入的这个参数确定程序的根目录，以便获取静态文件和模板文件的目录。</p>
+<ul>
+<li><p>app.route装饰器会将url和执行的视图函数的关系保存到app.url_map属性上。以便根据请求的url找到对应的视图函数。这里是将’\’和视图函数hello_word相关联。</p>
 </li>
-<li><p>任何时候使用具有 AND 和 OR 操作符的 WHERE 子句,都应该使用圆括号明确地分组操作符。不要过分依赖默认计算次序,即使它确实是你想要的东西也是如此。使用圆括号没有什么坏处,它能消除歧义。</p>
+<li><p>app.run().这个便是应用程序启动的命令。下面从源码的角度看下这个命令背后的过程。</p>
 </li>
 </ul>
+<h4 id="启动过程"><a href="#启动过程" class="headerlink" title="启动过程"></a>启动过程</h4><p>我们从源码的flask.app.Flask中找到run()方法的定义。下面展示的源码是去掉相关注释后的代码。</p>
+<pre><code>def run(self, host=None, port=None, debug=None, **options):
+    from werkzeug.serving import run_simple
+    if host is None:
+        host = &apos;127.0.0.1&apos;
+    if port is None:
+        server_name = self.config[&apos;SERVER_NAME&apos;]
+        if server_name and &apos;:&apos; in server_name:
+            port = int(server_name.rsplit(&apos;:&apos;, 1)[1])
+        else:
+            port = 5000
+    if debug is not None:
+        self.debug = bool(debug)
+    options.setdefault(&apos;use_reloader&apos;, self.debug)
+    options.setdefault(&apos;use_debugger&apos;, self.debug)
+    try:
+        run_simple(host, port, self, **options)
+    finally:
+        self._got_first_request = False
+</code></pre><p>从上述代码中可以看到，调用app.run(),这个函数比较简单，只是对传入的参数进行处理，如果没有传入host、port、dubug参数，那么Flask会默认使用host=127.0.0.1,port=5000, use_reloader=False, use_debugger=Flase.最后真正的启动服务是通过调用werkzeug.serving.run_simple()方法启动服务，接受的参数就是run()方法处理过的host和port，值得注意的是，run_simple()的第三个参数，他接受的是Flask实例本身。</p>
+<p>我们进一步看下run_simple()方法：</p>
+<pre><code>def run_simple(hostname, port, application, use_reloader=False,
+           use_debugger=False, use_evalex=True,
+           extra_files=None, reloader_interval=1,
+           reloader_type=&apos;auto&apos;, threaded=False,
+           processes=1, request_handler=None, static_files=None,
+           passthrough_errors=False, ssl_context=None):
+
+    if not isinstance(port, int):
+        raise TypeError(&apos;port must be an integer&apos;)
+    if use_debugger:
+        from werkzeug.debug import DebuggedApplication
+        application = DebuggedApplication(application, use_evalex)
+    if static_files:
+        from werkzeug.wsgi import SharedDataMiddleware
+        application = SharedDataMiddleware(application, static_files)
+
+    def log_startup(sock):
+        display_hostname = hostname not in (&apos;&apos;, &apos;*&apos;) and hostname or &apos;localhost&apos;
+        if &apos;:&apos; in display_hostname:
+            display_hostname = &apos;[%s]&apos; % display_hostname
+        quit_msg = &apos;(Press CTRL+C to quit)&apos;
+        port = sock.getsockname()[1]
+        _log(&apos;info&apos;, &apos; * Running on %s://%s:%d/ %s&apos;,
+             ssl_context is None and &apos;http&apos; or &apos;https&apos;,
+             display_hostname, port, quit_msg)
+
+    def inner():
+        try:
+            fd = int(os.environ[&apos;WERKZEUG_SERVER_FD&apos;])
+        except (LookupError, ValueError):
+            fd = None
+        srv = make_server(hostname, port, application, threaded,
+                          processes, request_handler,
+                          passthrough_errors, ssl_context,
+                          fd=fd)
+        if fd is None:
+            log_startup(srv.socket)
+        srv.serve_forever()
+
+    if use_reloader:
+        if os.environ.get(&apos;WERKZEUG_RUN_MAIN&apos;) != &apos;true&apos;:
+            if port == 0 and not can_open_by_fd:
+                raise ValueError(&apos;Cannot bind to a random port with enabled &apos;
+                                 &apos;reloader if the Python interpreter does &apos;
+                                 &apos;not support socket opening by fd.&apos;)
+
+            address_family = select_ip_version(hostname, port)
+            s = socket.socket(address_family, socket.SOCK_STREAM)
+            s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            s.bind(get_sockaddr(hostname, port, address_family))
+            if hasattr(s, &apos;set_inheritable&apos;):
+                s.set_inheritable(True)
+
+            if can_open_by_fd:
+                os.environ[&apos;WERKZEUG_SERVER_FD&apos;] = str(s.fileno())
+                s.listen(LISTEN_QUEUE)
+                log_startup(s)
+            else:
+                s.close()
+
+        from werkzeug._reloader import run_with_reloader
+        run_with_reloader(inner, extra_files, reloader_interval,
+                          reloader_type)
+    else:
+        inner()
+</code></pre><p>上述代码中，比较核心的服务是inner()方法，该方法中通过make_server()方法来创建相应的WSGIServer。默认情况下使用的是单线程的werkzeug.serving.BaseWSGIServer处理请求，实际上还是使用的标准库的BaseHTTPServer.HTTPServer。</p>
+<p><em>本节总结</em>：通过上述方法，再启动app.run()方法候,通过调用werkzeug.server.run_simple方法，默认情况下建立一个BsseWSGIServer监听端口，接受客户端发送过来的请求,这样一个web应用服务便启动了，会默认监听127.0.0.1:5000端口。</p>
+<p>那么当一个HTTP请求过来，是怎么进行处理的？下面分析下这个过程。</p>
+<h4 id="处理HTTP请求"><a href="#处理HTTP请求" class="headerlink" title="处理HTTP请求"></a>处理HTTP请求</h4><p>通过上面使我们知道app.run()启动一个web服务器,用来监听5000端口.下面便来分析下,当客户端请求过来候,Werkzeug是怎么处理请求,又是通过什么方法实现了WSGI的功能(将请求转化成flask应用能够处理的请求), 又是怎么将相应返回给客户端的.</p>
+<p>上面提到app.run()启动后,会启动一个BaseWSGIServer对象的web服务器.这个服务器对象在werkzeug.serving.BaseWSGISERver中定义,下面是源码的定义:</p>
+<pre><code>class BaseWSGIServer(HTTPServer, object):
+
+    multithread = False
+    multiprocess = False
+    request_queue_size = LISTEN_QUEUE
+
+    def __init__(self, host, port, app, handler=None,
+                 passthrough_errors=False, ssl_context=None, fd=None):
+        if handler is None:
+            handler = WSGIRequestHandler  # 这个请求处理对象用来替换到python标准库中HTTPServer对象中的请求处理对象
+
+        self.address_family = select_ip_version(host, port)
+
+        if fd is not None:
+            real_sock = socket.fromfd(fd, self.address_family,
+                                      socket.SOCK_STREAM)
+            port = 0
+        HTTPServer.__init__(self, get_sockaddr(host, int(port),
+                                               self.address_family), handler)
+
+        ...(省略)... 
+
+    def serve_forever(self):  # 启动HTTPServer服务的方法
+        self.shutdown_signal = False
+        try:
+            HTTPServer.serve_forever(self)
+        except KeyboardInterrupt:
+            pass
+        finally:
+            self.server_close()
+
+        ...(省略)...
+</code></pre><p>上面的源码删除了不关注的代码,如果对全部代码感兴趣,可以查看全部源码.从这个类的定义中,我们能够看到,BaseWSGIServer类继承python的标准库的HTTPServer类,这个类在初始化的时需要两个参数,具体如下:</p>
+<p><img src="/img/flask/startup/1.png" alt="HTTPServer类的说明"></p>
+<p>更多关于HTTPServer的知识请阅读<a href="https://docs.python.org/3/library/http.server.html" target="_blank" rel="noopener">python官方文档</a>. </p>
+<p>BaseWSGIServer类用werkzeug.serving.WSGIRequestHandler类替换了HTTPServer默认的处理请求方法.而这个类就是werkzeug实现<a href="https://baike.baidu.com/item/wsgi/3381529?fr=aladdin" target="_blank" rel="noopener">WSGI</a>功能的关键.负责WSGI的调度.</p>
+<p>BaseWSGIServer类是用来处理客户端的请求, 包装相关参数和生成start_response参数.也就是把请求处理成符合WSGI格式的,有关WSGI相关的知识可以看<a href="http://cizixs.com/2014/11/08/understand-wsgi/" target="_blank" rel="noopener">这篇博客</a>,写的很棒.然后调用flask应用,也就是我们生成的Flask实例app, app.(也就是run()的app.)</p>
+<p>下面是该类的源码的部分片段,我们关注和Flask的实例app有关的片段:</p>
+<pre><code>def execute(app):
+    application_iter = app(environ, start_response)  # 调用app, app是Flask类的实例
+    try:
+        for data in application_iter:
+            write(data)
+        if not headers_sent:
+            write(b&apos;&apos;)
+    finally:
+        if hasattr(application_iter, &apos;close&apos;):
+            application_iter.close()
+        application_iter = None
+</code></pre><p>这个方法中调用了app(), 而app是Flask类的实例,一个类如果能被直接调用,那么这个类必须实现<strong>call</strong>方法.实现<strong>call</strong>方法的类,是一个可调用对象,直接调用类,会自动运行<strong>call</strong>方法.我们返回到Flask()类中,看看<strong>call</strong>方法返回的对象.</p>
+<pre><code>def __call__(self, environ, start_response):
+&quot;&quot;&quot;Shortcut for :attr:`wsgi_app`.&quot;&quot;&quot;
+return self.wsgi_app(environ, start_response)
+</code></pre><p>返回的是.app.wsgi_app()方法的结果.顺着找到wsgi_app()方法:</p>
+<pre><code>def wsgi_app(self, environ, start_response):
+    ctx = self.request_context(environ)
+    ctx.push()
+    error = None
+    try:
+        try:
+            response = self.full_dispatch_request()
+        except Exception as e:
+            error = e
+            response = self.handle_exception(e)
+        return response(environ, start_response)
+    finally:
+        if self.should_ignore_error(error):
+            error = None
+        ctx.auto_pop(error)
+</code></pre><p>wsgi_app(environ, start_response)方法是真正的WSGI应用,environ参数是wsgi环境参数,HTTP请求的参数可以从里获得,start_response参数是一个可调用对象,接受一个状态码,一个headers的列表和一个可选的异常文本最为响应.该方法的处理过程是:调用request_context()方法,创建一个 RequestContext(environ)请求上下文对象,并把该对象压入_request_ctx_stack栈中,然后调用full_dispatch_request()方法对请求进行分发.进一步处理请求,下一步分析该方法.在外层try…finally…可以看到,在处理完请求(不管是正确处理还是出现异常)最后ctx.auto_pop(error)最后该请求都会从_request_ctx_stack中出栈.<br>把这个方法不直接写到<strong>call</strong>方法中,这么做是为了使用中间件的时候不会失去对Flask类的引用,当中间件调用应用的时候可以这么写:</p>
+<pre><code>app.wsgi_app = MyMiddleware(app.wsgi_app)
+</code></pre><p>这样仍然可以获原始的应用对象,并且可以继续调用它的方法.</p>
+<p>Flask.full_dispatch_request()方法源码:</p>
+<pre><code>def full_dispatch_request(self):
+    self.try_trigger_before_first_request_functions()
+    try:
+        request_started.send(self)
+        rv = self.preprocess_request()
+        if rv is None:
+            rv = self.dispatch_request()
+    except Exception as e:
+        rv = self.handle_user_exception(e)
+    return self.finalize_request(rv)
+
+def try_trigger_before_first_request_functions(self):
+
+    if self._got_first_request:
+        return
+    with self._before_request_lock:
+        if self._got_first_request:
+            return
+        for func in self.before_first_request_funcs:
+            func()
+        self._got_first_request = True
+
+def dispatch_request(self):
+    req = _request_ctx_stack.top.request
+    if req.routing_exception is not None:
+        self.raise_routing_exception(req)
+    rule = req.url_rule
+    # if we provide automatic options for this URL and the
+    # request came with the OPTIONS method, reply automatically
+    if getattr(rule, &apos;provide_automatic_options&apos;, False) \
+       and req.method == &apos;OPTIONS&apos;:
+        return self.make_default_options_response()
+    # otherwise dispatch to the handler for that endpoint
+    return self.view_functions[rule.endpoint](**req.view_args)
+</code></pre><p>执行逻辑: </p>
+<ol>
+<li><p>首先执行Flask.try_trigger_before_first_request_functions(), 该函数在每次请求之前调用Flask.before_first_request_funcs列表中的函数,并且每个Flask实例在每次请求只能调用一次.</p>
 </li>
-<li><p>in操作符</p>
+<li><p>Flask.preprocess_request()和Flask.finalize_request()方法里面包含了请求处理之前和之后的很多hooks(钩子), 包括</p>
 <ul>
-<li>in操作符用来指定条件范围,范围中的每个条件都可以进行匹配.IN 取合法值的由逗号分隔的清单,全都括在圆括号中。</li>
-<li><p>相比or操作符的有点:</p>
-<p>  (1)在使用长的合法选项清单时, IN 操作符的语法更清楚且更直观。</p>
-<p>  (2)在使用 IN 时,计算的次序更容易管理(因为使用的操作符更少)。</p>
-<p>  (3)IN 操作符一般比 OR 操作符清单执行更快。</p>
-<p>  (4)IN 的最大优点是可以包含其他 SELECT 语句,使得能够更动态地建立WHERE子句.</p>
-</li>
+<li>第一次请求处理之前的 hook 函数，通过 before_first_request 定义</li>
+<li>每个请求处理之前的 hook 函数，通过 before_request 定义</li>
+<li>每个请求正常处理之后的 hook 函数，通过 after_request 定义</li>
+<li>不管请求是否异常都要执行的 teardown_request hook 函数</li>
 </ul>
 </li>
-<li><p>not操作符</p>
-<p> not操作符表示否定它之后所跟的条件.</p>
+<li><p>其中dispatch_request()是调用与请求相对应的视图函数,并返回结果的真正的执行函数.这个函数的主要逻辑是通过请求的url,找到对应的视图函数,然后返回响应.</p>
+</li>
+<li><p>最后通过finalize_request()对返回的response进行包装成Response对象返回客户端.</p>
 </li>
 </ol>
-<h5 id="通配符"><a href="#通配符" class="headerlink" title="通配符"></a>通配符</h5><table>
-<thead>
-<tr>
-<th>名称</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>%</td>
-<td>表示任何字符出现任意次数,可以0次, 可以在任意位置使用,也可以使用多个通配符.但是不可以匹配NULL</td>
-</tr>
-<tr>
-<td>下划线 _</td>
-<td>匹配单个字符</td>
-</tr>
-</tbody>
-</table>
-<p><strong>使用技巧</strong></p>
-<ol>
-<li><p>不要过度使用通配符。如果其他操作符能达到相同的目的,应该使用其他操作符。</p>
-</li>
-<li><p>在确实需要使用通配符时,除非绝对有必要,否则不要把它们用在搜索模式的开始处。把通配符置于搜索模式的开始处,搜索起来是最慢的。</p>
-</li>
-<li><p>仔细注意通配符的位置。如果放错地方,可能不会返回想要的数</p>
-</li>
-</ol>
-<h5 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h5><p>在mysql中的where子句中,还支持使用正则表达式匹配.这种用法和like相似,只是将关键字换成REGEXP,示例如下:</p>
-<pre><code>select * from tableName where 列1 regexp &apos;正则表达式&apos;;
-匹配结果是列1符合正则的行.
-</code></pre><h5 id="拼接字段concatennate"><a href="#拼接字段concatennate" class="headerlink" title="拼接字段concatennate"></a>拼接字段concatennate</h5><p>在mysql的select语句中,可以使用Concat()函数来拼接两个列,显示成帅选结果的一个列中.</p>
-<p>示例:</p>
-<pre><code>SELECT Concat(列1, &apos; (&apos;, 列2, &apos;)&apos;) as 新列名 FROM tableName;
-</code></pre><p>解析:</p>
-<pre><code>- 该语句在查询结果中,显示的是一列,该列名为新列名, 数据元素的格式是:列1 (列2).
-- Concat()需要1个或多个指定的串,各串之间用逗号分隔.
-- 上面的select语句中concat()函数连接了4各元素:列1, &apos; (&apos;, 列2, &apos;)&apos;.
-- 在列之后可以使用AS给列另起一个别名,在查询结果中,该列将以新列名显示.
-</code></pre>
+
       
     </div>
     
@@ -572,7 +695,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/mysql/" rel="tag"># mysql</a>
+            <a href="/tags/flask源码/" rel="tag"># flask源码</a>
           
         </div>
       
@@ -585,8 +708,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/10/01/hello-world/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
+              <a href="/2018/10/04/mysql-高级操作1-函数的使用/" rel="next" title="mysql-高级操作1-函数的使用">
+                <i class="fa fa-chevron-left"></i> mysql-高级操作1-函数的使用
               </a>
             
           </div>
@@ -594,10 +717,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/10/04/mysql-高级操作1-函数的使用/" rel="prev" title="mysql-高级操作1-函数的使用">
-                mysql-高级操作1-函数的使用 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -743,7 +862,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#mysql常用命令"><span class="nav-number">1.</span> <span class="nav-text">mysql常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-show命令来查看数据库信息"><span class="nav-number">1.1.</span> <span class="nav-text">1. show命令来查看数据库信息</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-简单查询数据"><span class="nav-number">1.2.</span> <span class="nav-text">2. 简单查询数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-排序order-by语句"><span class="nav-number">1.3.</span> <span class="nav-text">3. 排序order by语句</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-过滤数据where语句"><span class="nav-number">1.4.</span> <span class="nav-text">4.过滤数据where语句.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#通配符"><span class="nav-number">1.5.</span> <span class="nav-text">通配符</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#正则表达式"><span class="nav-number">1.6.</span> <span class="nav-text">正则表达式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#拼接字段concatennate"><span class="nav-number">1.7.</span> <span class="nav-text">拼接字段concatennate</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#flask-核心依赖"><span class="nav-number">1.</span> <span class="nav-text">flask 核心依赖</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Werkzeug"><span class="nav-number">1.1.</span> <span class="nav-text">Werkzeug</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Jinja2"><span class="nav-number">1.2.</span> <span class="nav-text">Jinja2</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Flask应用启动流程"><span class="nav-number">2.</span> <span class="nav-text">Flask应用启动流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#启动过程"><span class="nav-number">2.1.</span> <span class="nav-text">启动过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#处理HTTP请求"><span class="nav-number">2.2.</span> <span class="nav-text">处理HTTP请求</span></a></li></ol></li></ol></div>
             
 
           </div>
