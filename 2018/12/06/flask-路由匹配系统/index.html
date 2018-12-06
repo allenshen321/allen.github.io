@@ -127,7 +127,7 @@
 
 
 
-  <title>Hello World | allen's blog</title>
+  <title>flask-路由匹配系统 | allen's blog</title>
   
 
 
@@ -328,7 +328,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/01/hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/06/flask-路由匹配系统/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="allen">
@@ -345,7 +345,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Hello World</h1>
+          <h1 class="post-title" itemprop="name headline">flask-路由匹配系统</h1>
         
 
         <div class="post-meta">
@@ -357,7 +357,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-01T15:35:43+08:00">2018-10-01</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-06T07:40:36+08:00">2018-12-06</time>
             
 
             
@@ -378,8 +378,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/hexo/" itemprop="url" rel="index">
-                    <span itemprop="name">hexo</span>
+                  <a href="/categories/flask/" itemprop="url" rel="index">
+                    <span itemprop="name">flask</span>
                   </a>
                 </span>
 
@@ -415,16 +415,54 @@
       
 
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<a id="more"></a>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+        <h3 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h3><p>在上一篇看了flask的<a href="http://sfpweb.cn/2018/11/22/flask-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/#more" target="_blank" rel="noopener">启动流程</a>,其中我们看到了在请求过来之后,flask处理请求的的函数Flask.dispatch_request(),这个函数是处理请求的真正执行函数,根据请求的url找到处理该请求的view函数.现在顺着这个线索看一下,到底是怎么根据请求的信息找到对应处理该请求的视图函数的.</p>
+<h3 id="视图函数如何注册到Flask类中的"><a href="#视图函数如何注册到Flask类中的" class="headerlink" title="视图函数如何注册到Flask类中的"></a>视图函数如何注册到Flask类中的</h3><p>先从最简单的定义Flask视图函数,如下:</p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route("/")  # @1</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"Hello World!"</span></span><br></pre></td></tr></table></figure>
+</code></pre><a id="more"></a>
+<p>@1 在定义视图函数hello的时候通过装饰器<code>app.route(&#39;/&#39;)</code>并且传入了一个url_rule参数’/‘注册到app中.</p>
+<p>再来看下Flask类,如何定义这个route装饰器函数的.</p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">route</span><span class="params">(self, rule, **options)</span>:</span>  <span class="comment"># @1</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">decorator</span><span class="params">(f)</span>:</span></span><br><span class="line">        endpoint = options.pop(<span class="string">'endpoint'</span>, <span class="keyword">None</span>)</span><br><span class="line">        self.add_url_rule(rule, endpoint, f, **options)  <span class="comment"># @2</span></span><br><span class="line">        <span class="keyword">return</span> f</span><br><span class="line">    <span class="keyword">return</span> decorator</span><br></pre></td></tr></table></figure>
+</code></pre><ul>
+<li>@1 装饰器函数接受参数rule,该参数就是我们传入的url_rule参数’/‘,这个函数也可以接受关键字参数**options,这个参数可以是我们定义的允许的请求方法,例如methods=[‘GET’, ‘POST’],需要注意的一点的是,除了我们给的url匹配规则外,传入的其他参数必须是关键字参数.</li>
+<li>@2 这个方法是注册到Flask中的真实函数,通过调用Flask.add_url_rule()方法将视图函数注册到Flask类中.</li>
+</ul>
+<p>下面分析这个add_url_rule方法.</p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@setupmethod  # @1</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_url_rule</span><span class="params">(self, rule, endpoint=None, view_func=None, **options)</span>:</span>  <span class="comment"># @2</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> endpoint <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">        endpoint = _endpoint_from_view_func(view_func)  <span class="comment"># @3</span></span><br><span class="line">    options[<span class="string">'endpoint'</span>] = endpoint</span><br><span class="line">    methods = options.pop(<span class="string">'methods'</span>, <span class="keyword">None</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> methods <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">        methods = getattr(view_func, <span class="string">'methods'</span>, <span class="keyword">None</span>) <span class="keyword">or</span> (<span class="string">'GET'</span>,)  <span class="comment"># @4</span></span><br><span class="line">    <span class="keyword">if</span> isinstance(methods, string_types):</span><br><span class="line">        <span class="keyword">raise</span> TypeError(<span class="string">'Allowed methods have to be iterables of strings, '</span></span><br><span class="line">                        <span class="string">'for example: @app.route(..., methods=["POST"])'</span>)</span><br><span class="line">    methods = set(item.upper() <span class="keyword">for</span> item <span class="keyword">in</span> methods)  <span class="comment"># @5</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Methods that should always be added</span></span><br><span class="line">    required_methods = set(getattr(view_func, <span class="string">'required_methods'</span>, ()))</span><br><span class="line"></span><br><span class="line">    provide_automatic_options = getattr(view_func,</span><br><span class="line">        <span class="string">'provide_automatic_options'</span>, <span class="keyword">None</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> provide_automatic_options <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">        <span class="keyword">if</span> <span class="string">'OPTIONS'</span> <span class="keyword">not</span> <span class="keyword">in</span> methods:</span><br><span class="line">            provide_automatic_options = <span class="keyword">True</span></span><br><span class="line">            required_methods.add(<span class="string">'OPTIONS'</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            provide_automatic_options = <span class="keyword">False</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Add the required methods now.</span></span><br><span class="line">    methods |= required_methods</span><br><span class="line"></span><br><span class="line">    rule = self.url_rule_class(rule, methods=methods, **options)  <span class="comment"># @6</span></span><br><span class="line">    rule.provide_automatic_options = provide_automatic_options</span><br><span class="line"></span><br><span class="line">    self.url_map.add(rule)  <span class="comment"># @7</span></span><br><span class="line">    <span class="keyword">if</span> view_func <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">        old_func = self.view_functions.get(endpoint)  <span class="comment"># @8</span></span><br><span class="line">        <span class="keyword">if</span> old_func <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span> <span class="keyword">and</span> old_func != view_func: <span class="comment"># @9</span></span><br><span class="line">            <span class="keyword">raise</span> AssertionError(<span class="string">'View function mapping is overwriting an '</span></span><br><span class="line">                                 <span class="string">'existing endpoint function: %s'</span> % endpoint)</span><br><span class="line">        <span class="comment"># self.view_functions是一个字典对象</span></span><br><span class="line">        self.view_functions[endpoint] = view_func  <span class="comment"># @10</span></span><br></pre></td></tr></table></figure>
+</code></pre><ul>
+<li><p>@1 Flask定义了setupmethod装饰器来确保所有的初始化函数必须在web应用程序开始提供服务之前被调用。如果在已经提供服务之后被调用，则报错。Line 3：这里确保用setupmethod装饰的函数在被实际调用之前，都会去检查self._got_first_request.Line 15: update_wrapper是functools包提供的一个函数。用来确保被装饰的函数依然可以支持Python的反射机制.</p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">setupmethod</span><span class="params">(f)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper_func</span><span class="params">(self, *args, **kwargs)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> self.debug <span class="keyword">and</span> self._got_first_request:</span><br><span class="line">            <span class="keyword">raise</span> AssertionError(<span class="string">'A setup function was called after the '</span></span><br><span class="line">                <span class="string">'first request was handled.  This usually indicates a bug '</span></span><br><span class="line">                <span class="string">'in the application where a module was not imported '</span></span><br><span class="line">                <span class="string">'and decorators or other functionality was called too late.\n'</span></span><br><span class="line">                <span class="string">'To fix this make sure to import all your view modules, '</span></span><br><span class="line">                <span class="string">'database models and everything related at a central place '</span></span><br><span class="line">                <span class="string">'before the application starts serving requests.'</span>)</span><br><span class="line">        <span class="keyword">return</span> f(self, *args, **kwargs)</span><br><span class="line">    <span class="keyword">return</span> update_wrapper(wrapper_func, f)</span><br></pre></td></tr></table></figure>
+</code></pre><ul>
+<li>@2 接受的参数url即我们hello例子中的’/‘, endpoint是端点,也就是视图函数hello的名字hello, view_func是hello函数, 和可选的不定长关键字参数**options.</li>
+<li>@3 如果没有提供端点endpoint参数,则默认为视图函数名.</li>
+<li>@4 如果没有提供允许的请求方式,则默认是’GET’或则视图函数的<code>methods</code>属性,需要注意的是,提供的请求参数必须是可迭代对象,例如:methods=[‘GET’, ‘POST’].因为后面要迭代这个参数.</li>
+<li>@5 这里的item.upper()可以看出,我们提供的methods参数的元素可以是写成小写的.例如methods=[‘post’, ‘get’],最后都会转化成大写的.</li>
+<li>@6 这里的self.url_rule_class是werkzeug.routing.Rule类本身,非Rule类的实例.rule是Rule()的实例.初其中绑定了关于hello视图的信息.允许的请求方法,endpoint, url等信息.关于Rule和Map下面分析.</li>
+<li>@7 Flask.url_map是werkzeug.routing.Map类的实例,该句的功能是将Rule类的实例rule添加到Map类对象的实例中,</li>
+<li>@8 核对保存endpoint到视图函数映射的view_functions字典是否已经存在该endpoint</li>
+<li>@9 如果已经存在端点名,则报错.</li>
+<li>@10 如果不存在则将endpoint到视图函数的映射关系添加到字典view_functions中,形式如:self.view_functions[‘hello’] = hello, 其中键是视图函数,值是视图函数.</li>
+</ul>
+</li>
+</ul>
+<p>通过分析知道,add_url_rule和@app.route这两种方法将视图函数注册到应用中是等效的,@app.route()方法,就是将add_url_rule方法外面包装成了装饰器的形式.其本质都是add_url_rule处理这个过程.可以发现,Flask只是将端点和视图函数的映射保存在了view_functions字典里,没有涉及到url的映射关系,rul的映射关系是通过Rule和Map类实现的,而这个功能是werkzeug提供的,因此在路由匹配方面,更核心的还是在werkzeug.routing中实现的.下面来看看这两个功能是怎么实现的.</p>
+<h4 id="werkzeug-routing中的Rule和Map类"><a href="#werkzeug-routing中的Rule和Map类" class="headerlink" title="werkzeug.routing中的Rule和Map类"></a>werkzeug.routing中的Rule和Map类</h4><p>werkzeug.routing中提供的这两个类的使用方法如下:</p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>m = Map([</span><br><span class="line"><span class="meta">... </span>    Rule(<span class="string">'/'</span>, endpoint=<span class="string">'index'</span>),</span><br><span class="line"><span class="meta">... </span>    Rule(<span class="string">'/downloads/'</span>, endpoint=<span class="string">'downloads/index'</span>),</span><br><span class="line"><span class="meta">... </span>    Rule(<span class="string">'/downloads/&lt;int:id&gt;'</span>, endpoint=<span class="string">'downloads/show'</span>)</span><br><span class="line"><span class="meta">... </span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>urls = m.bind(<span class="string">"example.com"</span>, <span class="string">"/"</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>urls.match(<span class="string">"/"</span>, <span class="string">"GET"</span>)</span><br><span class="line">(<span class="string">'index'</span>, &#123;&#125;)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>urls.match(<span class="string">"/downloads/42"</span>)</span><br><span class="line">(<span class="string">'downloads/show'</span>, &#123;<span class="string">'id'</span>: <span class="number">42</span>&#125;)</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>urls.match(<span class="string">"/downloads"</span>)</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  ...</span><br><span class="line">RequestRedirect: http://example.com/downloads/</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>urls.match(<span class="string">"/missing"</span>)</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  ...</span><br><span class="line">NotFound: <span class="number">404</span> Not Found</span><br></pre></td></tr></table></figure>
+</code></pre><p>由上面的例子可以看出,Map对象可以通过各处的url来匹配出对应的endpoint(端点)和参数.那在应用启动后,客户端发送过来请求,会通过请求的url匹配出对应的endpoint,然后根据匹配出的endpoint在找到view_functions字典中对应的视图函数,然后调用视图函数进行返回响应.</p>
+<p>而在Flask类的add_url_rule中也是这么处理的:</p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rule = self.url_rule_class(rule, methods=methods, **options)  <span class="comment"># @6</span></span><br><span class="line">self.url_map.add(rule)  <span class="comment"># @7</span></span><br></pre></td></tr></table></figure>
+</code></pre><p>上面我们分析了通过@6创建了rule也是werkzeug.routing:Rule类的实例,将rule就是hello示例中的’/‘, methods请求方式,还有额外的参数,其中options[‘endpoint’] = ‘hello’.然后将Rule的实例rule添加到Map类的实例self.url_map中.这样就可以通过这两个属性,根据请求的url找到所对应的视图函数了.</p>
+<p>###总结</p>
+<p>本片主要讨论了当我们写视图函数,启动flask应用的后,应用程序是怎么把视图函数注册到应用上去的.主要过程如下:</p>
+<ul>
+<li>函数注册到应用程序的方法有两种: <ol>
+<li>利用装饰器<a href="mailto:`@app.route" target="_blank" rel="noopener">`@app.route</a>(‘/‘, methods=[‘get’, ‘post’])的方法,将映射的url和允许的请求方法传给app.add_url_rule()方法</li>
+<li>直接使用app.add_url_rule(url, endpoint=None, view_function=None, **options)的方法,直接注册到app中.不管是那种方法,最后都是通过add_url_rule实现视图函数注册到应用程序中去的.</li>
+</ol>
+</li>
+<li>创建一个Rule实例,用来保存url,endpoint的映射关系,<code>Rule(url, methods=methods, **options)</code></li>
+<li>将Rule类的实例对象,添加到Map()对象的实例app.url_map对象中.这样利用Map对象实例,通过请求的url找到对应的endpoint和参数.</li>
+<li>将视图函数的endpoint和函数的映射关系保存到app.view_functions字典中.形如view_functions[‘endpoint’] = view_func, 这样就可以通过endpoint找到对应的视图函数view_func.</li>
+</ul>
 
       
     </div>
@@ -474,7 +512,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://yoursite.com/2018/10/01/hello-world/" title="Hello World">http://yoursite.com/2018/10/01/hello-world/</a>
+    <a href="http://yoursite.com/2018/12/06/flask-路由匹配系统/" title="flask-路由匹配系统">http://yoursite.com/2018/12/06/flask-路由匹配系统/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -489,7 +527,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/hexo语法/" rel="tag"># hexo语法</a>
+            <a href="/tags/flask源码/" rel="tag"># flask源码</a>
           
         </div>
       
@@ -502,8 +540,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/09/29/HTTP-TCP-IP协议简介/" rel="next" title="HTTP-TCP/IP协议简介">
-                <i class="fa fa-chevron-left"></i> HTTP-TCP/IP协议简介
+              <a href="/2018/11/22/flask-启动流程/" rel="next" title="flask-启动流程">
+                <i class="fa fa-chevron-left"></i> flask-启动流程
               </a>
             
           </div>
@@ -512,8 +550,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/10/03/mysql-常用命令总结/" rel="prev" title="mysql-常用命令总结">
-                mysql-常用命令总结 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/12/06/flask-请求/" rel="prev" title="flask-请求">
+                flask-请求 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -595,7 +633,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-count">30</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -617,7 +655,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -690,7 +728,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#疑问"><span class="nav-number">1.</span> <span class="nav-text">疑问</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#视图函数如何注册到Flask类中的"><span class="nav-number">2.</span> <span class="nav-text">视图函数如何注册到Flask类中的</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#werkzeug-routing中的Rule和Map类"><span class="nav-number">2.1.</span> <span class="nav-text">werkzeug.routing中的Rule和Map类</span></a></li></ol></li></ol></div>
             
 
           </div>

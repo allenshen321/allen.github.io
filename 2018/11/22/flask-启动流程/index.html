@@ -430,52 +430,14 @@
 <h4 id="Jinja2"><a href="#Jinja2" class="headerlink" title="Jinja2"></a><a href="http://jinja.pocoo.org/docs/2.9/" target="_blank" rel="noopener">Jinja2</a></h4><p>Jinja2 是Flask的默认引擎，功能非常丰富，支持unicode解析、自动HTML escape防止XSS攻击，继承、变量、过滤器、流程逻辑支持、python代码逻辑继承等等。</p>
 <h3 id="Flask应用启动流程"><a href="#Flask应用启动流程" class="headerlink" title="Flask应用启动流程"></a>Flask应用启动流程</h3><p>分析思路：首先看一个最小的应用开始，然后来分析一个应用程序都用到了Flask的那些功能，最后具体对应源码找到功能是如何实现的。</p>
 <p>下面先看号称世界上最小的应用：</p>
-<pre><code>from flask import Flask
-
-app = Flask(__name__)
-
-
-@app.route(&apos;/&apos;)
-def hello_world():
-    return &apos;Hello World！&apos;
-
-
-if __name__ == &apos;__main__&apos;:
-    app.run()
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello_world</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'Hello World！'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    app.run()</span><br></pre></td></tr></table></figure>
 </code></pre><p>整体来看，这段代码，只是建立了一个Flask()类的实例，并且传入了一个参数<strong>name</strong>.这个便是WSGI web应用部分，web应用实际上就是Flask类的实例。然后使用app.route装饰器实现了路由和view视图函数的匹配关系。最后通过app.run()实现web服务的启动。</p>
 <p>下面我们分别看看各功能是怎么实现的：</p>
 <ul>
 <li>app = Flask(<strong>name</strong>), 建立Flask实例的时候，为什么要传入<strong>name</strong>的参数呢，这个参数有什么作用，带着这个问题，找下Flask这个类的实现过程。</li>
 </ul>
 <p>在源码flask文件夹的app.py文件中，定义了这个Flask核心的类Flask类。</p>
-<pre><code>class Flask(_PackageBoundObject):
-    def __init__(self, import_name,
-                 static_path=None,
-                 static_url_path=None,
-                 static_folder=&apos;static&apos;, 
-                 template_folder=&apos;templates&apos;,
-                 instance_path=None,
-                 instance_relative_config=False,
-                 root_path=None):
-        _PackageBoundObject.__init__(self, import_name,
-                                     template_folder=template_folder,
-                                     root_path=root_path)
-
-class _PackageBoundObject(object):
-    def __init__(self, import_name, template_folder=None, root_path=None):
-        #: The name of the package or module.  Do not change this once
-        #: it was set by the constructor.
-        self.import_name = import_name
-
-        #: location of the templates.  ``None`` if templates should not be
-        #: exposed.
-        self.template_folder = template_folder
-
-        if root_path is None:
-            root_path = get_root_path(self.import_name)
-
-        #: Where is the app root located?
-        self.root_path = root_path
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Flask</span><span class="params">(_PackageBoundObject)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, import_name,</span></span></span><br><span class="line"><span class="function"><span class="params">                 static_path=None,</span></span></span><br><span class="line"><span class="function"><span class="params">                 static_url_path=None,</span></span></span><br><span class="line"><span class="function"><span class="params">                 static_folder=<span class="string">'static'</span>, </span></span></span><br><span class="line"><span class="function"><span class="params">                 template_folder=<span class="string">'templates'</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">                 instance_path=None,</span></span></span><br><span class="line"><span class="function"><span class="params">                 instance_relative_config=False,</span></span></span><br><span class="line"><span class="function"><span class="params">                 root_path=None)</span>:</span></span><br><span class="line">        _PackageBoundObject.__init__(self, import_name,</span><br><span class="line">                                     template_folder=template_folder,</span><br><span class="line">                                     root_path=root_path)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">_PackageBoundObject</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, import_name, template_folder=None, root_path=None)</span>:</span></span><br><span class="line">        <span class="comment">#: The name of the package or module.  Do not change this once</span></span><br><span class="line">        <span class="comment">#: it was set by the constructor.</span></span><br><span class="line">        self.import_name = import_name</span><br><span class="line"></span><br><span class="line">        <span class="comment">#: location of the templates.  ``None`` if templates should not be</span></span><br><span class="line">        <span class="comment">#: exposed.</span></span><br><span class="line">        self.template_folder = template_folder</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> root_path <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">            root_path = get_root_path(self.import_name)</span><br><span class="line"></span><br><span class="line">        <span class="comment">#: Where is the app root located?</span></span><br><span class="line">        self.root_path = root_path</span><br></pre></td></tr></table></figure>
 </code></pre><p>从源码中可见， Flask类继承_PachageBoundObject类，只有一个必要的参数，就是import_name,他接受包或者模块的名字，但是一般传递的是<strong>name</strong>.然后helpers.get_route_path函数，通过传入的这个参数确定程序的根目录，以便获取静态文件和模板文件的目录。</p>
 <ul>
 <li><p>app.route装饰器会将url和执行的视图函数的关系保存到app.url_map属性上。以便根据请求的url找到对应的视图函数。这里是将’\’和视图函数hello_word相关联。</p>
@@ -484,220 +446,12 @@ class _PackageBoundObject(object):
 </li>
 </ul>
 <h4 id="启动过程"><a href="#启动过程" class="headerlink" title="启动过程"></a>启动过程</h4><p>我们从源码的flask.app.Flask中找到run()方法的定义。下面展示的源码是去掉相关注释后的代码。</p>
-<pre><code>def run(self, host=None, port=None, debug=None, **options):
-    from werkzeug.serving import run_simple
-    if host is None:
-        host = &apos;127.0.0.1&apos;
-    if port is None:
-        server_name = self.config[&apos;SERVER_NAME&apos;]
-        if server_name and &apos;:&apos; in server_name:
-            port = int(server_name.rsplit(&apos;:&apos;, 1)[1])
-        else:
-            port = 5000
-    if debug is not None:
-        self.debug = bool(debug)
-    options.setdefault(&apos;use_reloader&apos;, self.debug)
-    options.setdefault(&apos;use_debugger&apos;, self.debug)
-    try:
-        run_simple(host, port, self, **options)
-    finally:
-        self._got_first_request = False
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self, host=None, port=None, debug=None, **options)</span>:</span></span><br><span class="line">    <span class="keyword">from</span> werkzeug.serving <span class="keyword">import</span> run_simple</span><br><span class="line">    <span class="keyword">if</span> host <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">        host = <span class="string">'127.0.0.1'</span></span><br><span class="line">    <span class="keyword">if</span> port <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">        server_name = self.config[<span class="string">'SERVER_NAME'</span>]</span><br><span class="line">        <span class="keyword">if</span> server_name <span class="keyword">and</span> <span class="string">':'</span> <span class="keyword">in</span> server_name:</span><br><span class="line">            port = int(server_name.rsplit(<span class="string">':'</span>, <span class="number">1</span>)[<span class="number">1</span>])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            port = <span class="number">5000</span></span><br><span class="line">    <span class="keyword">if</span> debug <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">        self.debug = bool(debug)</span><br><span class="line">    options.setdefault(<span class="string">'use_reloader'</span>, self.debug)</span><br><span class="line">    options.setdefault(<span class="string">'use_debugger'</span>, self.debug)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        run_simple(host, port, self, **options)</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        self._got_first_request = <span class="keyword">False</span></span><br></pre></td></tr></table></figure>
 </code></pre><p>从上述代码中可以看到，调用app.run(),这个函数比较简单，只是对传入的参数进行处理，如果没有传入host、port、dubug参数，那么Flask会默认使用host=127.0.0.1,port=5000, use_reloader=False, use_debugger=Flase.最后真正的启动服务是通过调用werkzeug.serving.run_simple()方法启动服务，接受的参数就是run()方法处理过的host和port，值得注意的是，run_simple()的第三个参数，他接受的是Flask实例本身。</p>
 <p>我们进一步看下run_simple()方法：</p>
-<pre><code>def run_simple(hostname, port, application, use_reloader=False,
-           use_debugger=False, use_evalex=True,
-           extra_files=None, reloader_interval=1,
-           reloader_type=&apos;auto&apos;, threaded=False,
-           processes=1, request_handler=None, static_files=None,
-           passthrough_errors=False, ssl_context=None):
-
-    if not isinstance(port, int):
-        raise TypeError(&apos;port must be an integer&apos;)
-    if use_debugger:
-        from werkzeug.debug import DebuggedApplication
-        application = DebuggedApplication(application, use_evalex)
-    if static_files:
-        from werkzeug.wsgi import SharedDataMiddleware
-        application = SharedDataMiddleware(application, static_files)
-
-    def log_startup(sock):
-        display_hostname = hostname not in (&apos;&apos;, &apos;*&apos;) and hostname or &apos;localhost&apos;
-        if &apos;:&apos; in display_hostname:
-            display_hostname = &apos;[%s]&apos; % display_hostname
-        quit_msg = &apos;(Press CTRL+C to quit)&apos;
-        port = sock.getsockname()[1]
-        _log(&apos;info&apos;, &apos; * Running on %s://%s:%d/ %s&apos;,
-             ssl_context is None and &apos;http&apos; or &apos;https&apos;,
-             display_hostname, port, quit_msg)
-
-    def inner():
-        try:
-            fd = int(os.environ[&apos;WERKZEUG_SERVER_FD&apos;])
-        except (LookupError, ValueError):
-            fd = None
-        srv = make_server(hostname, port, application, threaded,
-                          processes, request_handler,
-                          passthrough_errors, ssl_context,
-                          fd=fd)
-        if fd is None:
-            log_startup(srv.socket)
-        srv.serve_forever()
-
-    if use_reloader:
-        if os.environ.get(&apos;WERKZEUG_RUN_MAIN&apos;) != &apos;true&apos;:
-            if port == 0 and not can_open_by_fd:
-                raise ValueError(&apos;Cannot bind to a random port with enabled &apos;
-                                 &apos;reloader if the Python interpreter does &apos;
-                                 &apos;not support socket opening by fd.&apos;)
-
-            address_family = select_ip_version(hostname, port)
-            s = socket.socket(address_family, socket.SOCK_STREAM)
-            s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-            s.bind(get_sockaddr(hostname, port, address_family))
-            if hasattr(s, &apos;set_inheritable&apos;):
-                s.set_inheritable(True)
-
-            if can_open_by_fd:
-                os.environ[&apos;WERKZEUG_SERVER_FD&apos;] = str(s.fileno())
-                s.listen(LISTEN_QUEUE)
-                log_startup(s)
-            else:
-                s.close()
-
-        from werkzeug._reloader import run_with_reloader
-        run_with_reloader(inner, extra_files, reloader_interval,
-                          reloader_type)
-    else:
-        inner()
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run_simple</span><span class="params">(hostname, port, application, use_reloader=False,</span></span></span><br><span class="line"><span class="function"><span class="params">           use_debugger=False, use_evalex=True,</span></span></span><br><span class="line"><span class="function"><span class="params">           extra_files=None, reloader_interval=<span class="number">1</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">           reloader_type=<span class="string">'auto'</span>, threaded=False,</span></span></span><br><span class="line"><span class="function"><span class="params">           processes=<span class="number">1</span>, request_handler=None, static_files=None,</span></span></span><br><span class="line"><span class="function"><span class="params">           passthrough_errors=False, ssl_context=None)</span>:</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> isinstance(port, int):</span><br><span class="line">        <span class="keyword">raise</span> TypeError(<span class="string">'port must be an integer'</span>)</span><br><span class="line">    <span class="keyword">if</span> use_debugger:</span><br><span class="line">        <span class="keyword">from</span> werkzeug.debug <span class="keyword">import</span> DebuggedApplication</span><br><span class="line">        application = DebuggedApplication(application, use_evalex)</span><br><span class="line">    <span class="keyword">if</span> static_files:</span><br><span class="line">        <span class="keyword">from</span> werkzeug.wsgi <span class="keyword">import</span> SharedDataMiddleware</span><br><span class="line">        application = SharedDataMiddleware(application, static_files)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">log_startup</span><span class="params">(sock)</span>:</span></span><br><span class="line">        display_hostname = hostname <span class="keyword">not</span> <span class="keyword">in</span> (<span class="string">''</span>, <span class="string">'*'</span>) <span class="keyword">and</span> hostname <span class="keyword">or</span> <span class="string">'localhost'</span></span><br><span class="line">        <span class="keyword">if</span> <span class="string">':'</span> <span class="keyword">in</span> display_hostname:</span><br><span class="line">            display_hostname = <span class="string">'[%s]'</span> % display_hostname</span><br><span class="line">        quit_msg = <span class="string">'(Press CTRL+C to quit)'</span></span><br><span class="line">        port = sock.getsockname()[<span class="number">1</span>]</span><br><span class="line">        _log(<span class="string">'info'</span>, <span class="string">' * Running on %s://%s:%d/ %s'</span>,</span><br><span class="line">             ssl_context <span class="keyword">is</span> <span class="keyword">None</span> <span class="keyword">and</span> <span class="string">'http'</span> <span class="keyword">or</span> <span class="string">'https'</span>,</span><br><span class="line">             display_hostname, port, quit_msg)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            fd = int(os.environ[<span class="string">'WERKZEUG_SERVER_FD'</span>])  </span><br><span class="line">        <span class="keyword">except</span> (LookupError, ValueError):</span><br><span class="line">            fd = <span class="keyword">None</span></span><br><span class="line">        <span class="comment"># 创建一个BaseWSGIServer对象的Web服务器</span></span><br><span class="line">        srv = make_server(hostname, port, application, threaded,</span><br><span class="line">                          processes, request_handler,</span><br><span class="line">                          passthrough_errors, ssl_context,</span><br><span class="line">                          fd=fd)</span><br><span class="line">        <span class="keyword">if</span> fd <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">            log_startup(srv.socket)</span><br><span class="line">        srv.serve_forever()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> use_reloader:</span><br><span class="line">        <span class="keyword">if</span> os.environ.get(<span class="string">'WERKZEUG_RUN_MAIN'</span>) != <span class="string">'true'</span>:</span><br><span class="line">            <span class="keyword">if</span> port == <span class="number">0</span> <span class="keyword">and</span> <span class="keyword">not</span> can_open_by_fd:</span><br><span class="line">                <span class="keyword">raise</span> ValueError(<span class="string">'Cannot bind to a random port with enabled '</span></span><br><span class="line">                                 <span class="string">'reloader if the Python interpreter does '</span></span><br><span class="line">                                 <span class="string">'not support socket opening by fd.'</span>)</span><br><span class="line"></span><br><span class="line">            address_family = select_ip_version(hostname, port)</span><br><span class="line">            s = socket.socket(address_family, socket.SOCK_STREAM)</span><br><span class="line">            s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, <span class="number">1</span>)</span><br><span class="line">            s.bind(get_sockaddr(hostname, port, address_family))</span><br><span class="line">            <span class="keyword">if</span> hasattr(s, <span class="string">'set_inheritable'</span>):</span><br><span class="line">                s.set_inheritable(<span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> can_open_by_fd:</span><br><span class="line">                os.environ[<span class="string">'WERKZEUG_SERVER_FD'</span>] = str(s.fileno())</span><br><span class="line">                s.listen(LISTEN_QUEUE)</span><br><span class="line">                log_startup(s)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                s.close()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">from</span> werkzeug._reloader <span class="keyword">import</span> run_with_reloader</span><br><span class="line">        run_with_reloader(inner, extra_files, reloader_interval,</span><br><span class="line">                          reloader_type)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        inner()  <span class="comment"># 最后调用闭包内的函数inner()</span></span><br></pre></td></tr></table></figure>
 </code></pre><p>上述代码中，比较核心的服务是inner()方法，该方法中通过make_server()方法来创建相应的WSGIServer。默认情况下使用的是单线程的werkzeug.serving.BaseWSGIServer处理请求，实际上还是使用的标准库的BaseHTTPServer.HTTPServer。</p>
-<p><em>本节总结</em>：通过上述方法，再启动app.run()方法候,通过调用werkzeug.server.run_simple方法，默认情况下建立一个BsseWSGIServer监听端口，接受客户端发送过来的请求,这样一个web应用服务便启动了，会默认监听127.0.0.1:5000端口。</p>
-<p>那么当一个HTTP请求过来，是怎么进行处理的？下面分析下这个过程。</p>
-<h4 id="处理HTTP请求"><a href="#处理HTTP请求" class="headerlink" title="处理HTTP请求"></a>处理HTTP请求</h4><p>通过上面使我们知道app.run()启动一个web服务器,用来监听5000端口.下面便来分析下,当客户端请求过来候,Werkzeug是怎么处理请求,又是通过什么方法实现了WSGI的功能(将请求转化成flask应用能够处理的请求), 又是怎么将相应返回给客户端的.</p>
-<p>上面提到app.run()启动后,会启动一个BaseWSGIServer对象的web服务器.这个服务器对象在werkzeug.serving.BaseWSGISERver中定义,下面是源码的定义:</p>
-<pre><code>class BaseWSGIServer(HTTPServer, object):
-
-    multithread = False
-    multiprocess = False
-    request_queue_size = LISTEN_QUEUE
-
-    def __init__(self, host, port, app, handler=None,
-                 passthrough_errors=False, ssl_context=None, fd=None):
-        if handler is None:
-            handler = WSGIRequestHandler  # 这个请求处理对象用来替换到python标准库中HTTPServer对象中的请求处理对象
-
-        self.address_family = select_ip_version(host, port)
-
-        if fd is not None:
-            real_sock = socket.fromfd(fd, self.address_family,
-                                      socket.SOCK_STREAM)
-            port = 0
-        HTTPServer.__init__(self, get_sockaddr(host, int(port),
-                                               self.address_family), handler)
-
-        ...(省略)... 
-
-    def serve_forever(self):  # 启动HTTPServer服务的方法
-        self.shutdown_signal = False
-        try:
-            HTTPServer.serve_forever(self)
-        except KeyboardInterrupt:
-            pass
-        finally:
-            self.server_close()
-
-        ...(省略)...
-</code></pre><p>上面的源码删除了不关注的代码,如果对全部代码感兴趣,可以查看全部源码.从这个类的定义中,我们能够看到,BaseWSGIServer类继承python的标准库的HTTPServer类,这个类在初始化的时需要两个参数,具体如下:</p>
-<p><img src="/img/flask/startup/1.png" alt="HTTPServer类的说明"></p>
-<p>更多关于HTTPServer的知识请阅读<a href="https://docs.python.org/3/library/http.server.html" target="_blank" rel="noopener">python官方文档</a>. </p>
-<p>BaseWSGIServer类用werkzeug.serving.WSGIRequestHandler类替换了HTTPServer默认的处理请求方法.而这个类就是werkzeug实现<a href="https://baike.baidu.com/item/wsgi/3381529?fr=aladdin" target="_blank" rel="noopener">WSGI</a>功能的关键.负责WSGI的调度.</p>
-<p>BaseWSGIServer类是用来处理客户端的请求, 包装相关参数和生成start_response参数.也就是把请求处理成符合WSGI格式的,有关WSGI相关的知识可以看<a href="http://cizixs.com/2014/11/08/understand-wsgi/" target="_blank" rel="noopener">这篇博客</a>,写的很棒.然后调用flask应用,也就是我们生成的Flask实例app, app.(也就是run()的app.)</p>
-<p>下面是该类的源码的部分片段,我们关注和Flask的实例app有关的片段:</p>
-<pre><code>def execute(app):
-    application_iter = app(environ, start_response)  # 调用app, app是Flask类的实例
-    try:
-        for data in application_iter:
-            write(data)
-        if not headers_sent:
-            write(b&apos;&apos;)
-    finally:
-        if hasattr(application_iter, &apos;close&apos;):
-            application_iter.close()
-        application_iter = None
-</code></pre><p>这个方法中调用了app(), 而app是Flask类的实例,一个类如果能被直接调用,那么这个类必须实现<strong>call</strong>方法.实现<strong>call</strong>方法的类,是一个可调用对象,直接调用类,会自动运行<strong>call</strong>方法.我们返回到Flask()类中,看看<strong>call</strong>方法返回的对象.</p>
-<pre><code>def __call__(self, environ, start_response):
-&quot;&quot;&quot;Shortcut for :attr:`wsgi_app`.&quot;&quot;&quot;
-return self.wsgi_app(environ, start_response)
-</code></pre><p>返回的是.app.wsgi_app()方法的结果.顺着找到wsgi_app()方法:</p>
-<pre><code>def wsgi_app(self, environ, start_response):
-    ctx = self.request_context(environ)
-    ctx.push()
-    error = None
-    try:
-        try:
-            response = self.full_dispatch_request()
-        except Exception as e:
-            error = e
-            response = self.handle_exception(e)
-        return response(environ, start_response)
-    finally:
-        if self.should_ignore_error(error):
-            error = None
-        ctx.auto_pop(error)
-</code></pre><p>wsgi_app(environ, start_response)方法是真正的WSGI应用,environ参数是wsgi环境参数,HTTP请求的参数可以从里获得,start_response参数是一个可调用对象,接受一个状态码,一个headers的列表和一个可选的异常文本最为响应.该方法的处理过程是:调用request_context()方法,创建一个 RequestContext(environ)请求上下文对象,并把该对象压入_request_ctx_stack栈中,然后调用full_dispatch_request()方法对请求进行分发.进一步处理请求,下一步分析该方法.在外层try…finally…可以看到,在处理完请求(不管是正确处理还是出现异常)最后ctx.auto_pop(error)最后该请求都会从_request_ctx_stack中出栈.<br>把这个方法不直接写到<strong>call</strong>方法中,这么做是为了使用中间件的时候不会失去对Flask类的引用,当中间件调用应用的时候可以这么写:</p>
-<pre><code>app.wsgi_app = MyMiddleware(app.wsgi_app)
-</code></pre><p>这样仍然可以获原始的应用对象,并且可以继续调用它的方法.</p>
-<p>Flask.full_dispatch_request()方法源码:</p>
-<pre><code>def full_dispatch_request(self):
-    self.try_trigger_before_first_request_functions()
-    try:
-        request_started.send(self)
-        rv = self.preprocess_request()
-        if rv is None:
-            rv = self.dispatch_request()
-    except Exception as e:
-        rv = self.handle_user_exception(e)
-    return self.finalize_request(rv)
-
-def try_trigger_before_first_request_functions(self):
-
-    if self._got_first_request:
-        return
-    with self._before_request_lock:
-        if self._got_first_request:
-            return
-        for func in self.before_first_request_funcs:
-            func()
-        self._got_first_request = True
-
-def dispatch_request(self):
-    req = _request_ctx_stack.top.request
-    if req.routing_exception is not None:
-        self.raise_routing_exception(req)
-    rule = req.url_rule
-    # if we provide automatic options for this URL and the
-    # request came with the OPTIONS method, reply automatically
-    if getattr(rule, &apos;provide_automatic_options&apos;, False) \
-       and req.method == &apos;OPTIONS&apos;:
-        return self.make_default_options_response()
-    # otherwise dispatch to the handler for that endpoint
-    return self.view_functions[rule.endpoint](**req.view_args)
-</code></pre><p>执行逻辑: </p>
-<ol>
-<li><p>首先执行Flask.try_trigger_before_first_request_functions(), 该函数在每次请求之前调用Flask.before_first_request_funcs列表中的函数,并且每个Flask实例在每次请求只能调用一次.</p>
-</li>
-<li><p>Flask.preprocess_request()和Flask.finalize_request()方法里面包含了请求处理之前和之后的很多hooks(钩子), 包括</p>
-<ul>
-<li>第一次请求处理之前的 hook 函数，通过 before_first_request 定义</li>
-<li>每个请求处理之前的 hook 函数，通过 before_request 定义</li>
-<li>每个请求正常处理之后的 hook 函数，通过 after_request 定义</li>
-<li>不管请求是否异常都要执行的 teardown_request hook 函数</li>
-</ul>
-</li>
-<li><p>其中dispatch_request()是调用与请求相对应的视图函数,并返回结果的真正的执行函数.这个函数的主要逻辑是通过请求的url,找到对应的视图函数,然后返回响应.</p>
-</li>
-<li><p>最后通过finalize_request()对返回的response进行包装成Response对象返回客户端.</p>
-</li>
-</ol>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>再启动启动app.run()方法候,通过调用werkzeug.server.run_simple方法，默认情况下建立一个BsseWSGIServer监听端口，接受客户端发送过来的请求,这样一个web应用服务便启动了，会默认监听127.0.0.1:5000端口。</p>
 
       
     </div>
@@ -785,6 +539,10 @@ def dispatch_request(self):
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2018/12/06/flask-路由匹配系统/" rel="prev" title="flask-路由匹配系统">
+                flask-路由匹配系统 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -864,7 +622,7 @@ def dispatch_request(self):
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-count">30</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -886,7 +644,7 @@ def dispatch_request(self):
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -959,7 +717,7 @@ def dispatch_request(self):
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#flask-核心依赖"><span class="nav-number">1.</span> <span class="nav-text">flask 核心依赖</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Werkzeug"><span class="nav-number">1.1.</span> <span class="nav-text">Werkzeug</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Jinja2"><span class="nav-number">1.2.</span> <span class="nav-text">Jinja2</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Flask应用启动流程"><span class="nav-number">2.</span> <span class="nav-text">Flask应用启动流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#启动过程"><span class="nav-number">2.1.</span> <span class="nav-text">启动过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#处理HTTP请求"><span class="nav-number">2.2.</span> <span class="nav-text">处理HTTP请求</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#flask-核心依赖"><span class="nav-number">1.</span> <span class="nav-text">flask 核心依赖</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Werkzeug"><span class="nav-number">1.1.</span> <span class="nav-text">Werkzeug</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Jinja2"><span class="nav-number">1.2.</span> <span class="nav-text">Jinja2</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Flask应用启动流程"><span class="nav-number">2.</span> <span class="nav-text">Flask应用启动流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#启动过程"><span class="nav-number">2.1.</span> <span class="nav-text">启动过程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>

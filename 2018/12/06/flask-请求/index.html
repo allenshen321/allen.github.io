@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.0" color="#222">
+
+
+  <link rel="manifest" href="/images/manifest.json">
+
+
+  <meta name="msapplication-config" content="/images/browserconfig.xml" />
+
+
+
+  <meta name="keywords" content="allen, allen blog" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Whatever is worth doing is worth doing well!">
+<meta property="og:type" content="website">
+<meta property="og:title" content="about">
+<meta property="og:url" content="http://yoursite.com/about/index.html">
+<meta property="og:site_name" content="allen&#39;s blog">
+<meta property="og:description" content="Whatever is worth doing is worth doing well!">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-16T08:42:06.100Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="about">
+<meta name="twitter:description" content="Whatever is worth doing is worth doing well!">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.0.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/about/"/>
+
+
+
+
+
+  <title>flask-请求 | allen's blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?41fc030db57d5570dd22f78997dc4a7e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">allen's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/06/flask-请求/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="allen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="allen's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">flask-请求</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-06T14:16:41+08:00">2018-12-06</time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/flask/" itemprop="url" rel="index">
+                    <span itemprop="name">flask</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>通过之前的<a href="http://allenshen321.github.io/2018/11/22/flask-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/#more" target="_blank" rel="noopener">flask-启动流程</a>使我们知道app.run()启动一个web服务器,用来监听5000端口.下面便来分析下,当客户端请求过来候,Werkzeug是怎么处理请求,又是通过什么方法实现了WSGI的功能(将请求转化成flask应用能够处理的请求), 又是怎么将相应返回给客户端的.</p>
+<h3 id="处理客户端请求"><a href="#处理客户端请求" class="headerlink" title="处理客户端请求"></a>处理客户端请求</h3><p>上面提到app.run()启动后,会启动一个BaseWSGIServer对象的web服务器.这个服务器对象在werkzeug.serving.BaseWSGISERver中定义,下面是源码的定义:</p>
+<a id="more"></a>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BaseWSGIServer</span><span class="params">(HTTPServer, object)</span>:</span></span><br><span class="line"></span><br><span class="line">    multithread = <span class="keyword">False</span></span><br><span class="line">    multiprocess = <span class="keyword">False</span></span><br><span class="line">    request_queue_size = LISTEN_QUEUE</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, host, port, app, handler=None,</span></span></span><br><span class="line"><span class="function"><span class="params">                 passthrough_errors=False, ssl_context=None, fd=None)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> handler <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">            handler = WSGIRequestHandler  <span class="comment"># 这个请求处理对象用来替换到python标准库中HTTPServer对象中的请求处理对象</span></span><br><span class="line"></span><br><span class="line">        self.address_family = select_ip_version(host, port)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> fd <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">            real_sock = socket.fromfd(fd, self.address_family,</span><br><span class="line">                                      socket.SOCK_STREAM)</span><br><span class="line">            port = <span class="number">0</span></span><br><span class="line">        HTTPServer.__init__(self, get_sockaddr(host, int(port),</span><br><span class="line">                                               self.address_family), handler)</span><br><span class="line">        </span><br><span class="line">        ...(省略)... </span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">serve_forever</span><span class="params">(self)</span>:</span>  <span class="comment"># 启动HTTPServer服务的方法</span></span><br><span class="line">        self.shutdown_signal = <span class="keyword">False</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            HTTPServer.serve_forever(self)</span><br><span class="line">        <span class="keyword">except</span> KeyboardInterrupt:</span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line">        <span class="keyword">finally</span>:</span><br><span class="line">            self.server_close()</span><br><span class="line">            </span><br><span class="line">        ...(省略)...</span><br></pre></td></tr></table></figure>
+</code></pre><p>上面的源码删除了不关注的代码,如果对全部代码感兴趣,可以查看全部源码.从这个类的定义中,我们能够看到,BaseWSGIServer类继承python的标准库的HTTPServer类,这个类在初始化的时需要两个参数,具体如下:</p>
+<p><img src="/img/flask/startup/1.png" alt="HTTPServer类的说明"></p>
+<p>更多关于HTTPServer的知识请阅读<a href="https://docs.python.org/3/library/http.server.html" target="_blank" rel="noopener">python官方文档</a>. </p>
+<p>BaseWSGIServer类用werkzeug.serving.WSGIRequestHandler类替换了HTTPServer默认的处理请求方法.而这个类就是werkzeug实现<a href="https://baike.baidu.com/item/wsgi/3381529?fr=aladdin" target="_blank" rel="noopener">WSGI</a>功能的关键.负责WSGI的调度.</p>
+<p>BaseWSGIServerHandler类是用来处理客户端的请求, 包装相关参数和生成start_response参数.也就是把请求处理成符合WSGI格式的,有关WSGI相关的知识可以看<a href="http://cizixs.com/2014/11/08/understand-wsgi/" target="_blank" rel="noopener">这篇博客</a>,写的很棒.然后调用flask应用,也就是我们生成的Flask实例app, app.</p>
+<p>下面是该类的源码的部分片段,我们关注和Flask的实例app有关的片段:</p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">execute</span><span class="params">(app)</span>:</span></span><br><span class="line">    application_iter = app(environ, start_response)  <span class="comment"># 调用app, app是Flask类的实例</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">for</span> data <span class="keyword">in</span> application_iter:</span><br><span class="line">            write(data)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> headers_sent:</span><br><span class="line">            write(<span class="string">b''</span>)</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        <span class="keyword">if</span> hasattr(application_iter, <span class="string">'close'</span>):</span><br><span class="line">            application_iter.close()</span><br><span class="line">        application_iter = <span class="keyword">None</span></span><br></pre></td></tr></table></figure>
+</code></pre><p>这个方法中调用了app(), 而app是Flask类的实例,一个类如果能被直接调用,那么这个类必须实现<strong>call</strong>方法.实现<strong>call</strong>方法的类,就可以当成一个可调用对象进行调用,直接调用类,会自动运行<strong>call</strong>方法.我们返回到Flask()类中,看看<strong>call</strong>方法返回的对象.</p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">__call__</span><span class="params">(self, environ, start_response)</span>:</span></span><br><span class="line"><span class="string">"""Shortcut for :attr:`wsgi_app`."""</span></span><br><span class="line"><span class="keyword">return</span> self.wsgi_app(environ, start_response)</span><br></pre></td></tr></table></figure>
+</code></pre><p>返回的是.app.wsgi_app()方法的结果.顺着找到wsgi_app()方法:</p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">wsgi_app</span><span class="params">(self, environ, start_response)</span>:</span></span><br><span class="line">    ctx = self.request_context(environ)</span><br><span class="line">    ctx.push()</span><br><span class="line">    error = <span class="keyword">None</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            response = self.full_dispatch_request()</span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">            error = e</span><br><span class="line">            response = self.handle_exception(e)</span><br><span class="line">        <span class="keyword">return</span> response(environ, start_response)</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        <span class="keyword">if</span> self.should_ignore_error(error):</span><br><span class="line">            error = <span class="keyword">None</span></span><br><span class="line">        ctx.auto_pop(error)</span><br></pre></td></tr></table></figure>
+</code></pre><p>wsgi_app(environ, start_response)方法是真正的WSGI应用,environ参数是wsgi环境参数,HTTP请求的参数可以从里获得,start_response参数是一个可调用对象,接受一个状态码,一个headers的列表和一个可选的异常文本最为响应.该方法的处理过程是:调用request_context()方法,创建一个 RequestContext(environ)请求上下文对象,并把该对象压入_request_ctx_stack栈中,然后调用full_dispatch_request()方法对请求进行分发.进一步处理请求,下一步分析该方法.在外层try…finally…可以看到,在处理完请求(不管是正确处理还是出现异常)最后ctx.auto_pop(error)最后该请求都会从_request_ctx_stack中出栈.<br>把这个方法不直接写到<strong>call</strong>方法中,这么做是为了使用中间件的时候不会失去对Flask类的引用,当中间件调用应用的时候可以这么写:</p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app.wsgi_app = MyMiddleware(app.wsgi_app)</span><br></pre></td></tr></table></figure>
+</code></pre><p>这样仍然可以获原始的应用对象,并且可以继续调用它的方法.</p>
+<p>上一步代码中提到,wsgi_app()方法将一个RequestContext()请求上下文的实例压入请求上下文栈中,在RequestContext()初始化的时候做了一些处理,下面看一下这个实例包含那些信息.</p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RequestContext</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, app, environ, request=None)</span>:</span></span><br><span class="line">        self.app = app</span><br><span class="line">        <span class="keyword">if</span> request <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">            request = app.request_class(environ)  <span class="comment"># @1</span></span><br><span class="line">        self.request = request</span><br><span class="line">        self.url_adapter = app.create_url_adapter(self.request)  @<span class="number">2</span></span><br><span class="line">        self.flashes = <span class="keyword">None</span></span><br><span class="line">        self.session = <span class="keyword">None</span></span><br><span class="line"></span><br><span class="line">        self._implicit_app_ctx_stack = []</span><br><span class="line"></span><br><span class="line">        self.preserved = <span class="keyword">False</span></span><br><span class="line"></span><br><span class="line">        self._preserved_exc = <span class="keyword">None</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 返回相应对象之后,在after_request之前执行的函数</span></span><br><span class="line">        self._after_request_functions = []</span><br><span class="line"></span><br><span class="line">        self.match_request()  <span class="comment"># @3</span></span><br></pre></td></tr></table></figure>
+</code></pre><p>这个是保存在请求上下文中的对象,其中有3点值得注意的,分别标记@的地方.这个对象的实例包含了请求相关的所有信息,该类还在初始化的时候创建一个URL适配器(url_adapter对象,这个是一个werkzeug.routing.Map类的实例)保存在url_adapter属性中;而且也创建了一个flask.wrapers.Request对象,保存在request属性中.</p>
+<ul>
+<li><p>@1 此处就是创建了一个flask.wrappers.Request类的实例,该类是werkzeug.wrapper.Request类的子类,包含werkzeug定义的所有方法,另外也实现了flask一些特有的方法.该实例部分源码如下(其中删除了属性方法的定义):</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Request</span><span class="params">(RequestBase)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 该属性是内部匹配请求的URL规则,这在请求前和请求钩子检查请求方法是否允许很有用,该值在RequestContext初始化时被赋值</span></span><br><span class="line">    url_rule = <span class="keyword">None</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 保存了所匹配请求的试图参数,这是一个字典类型.当请求url匹配失败时,该值为None.</span></span><br><span class="line">    view_args = <span class="keyword">None</span></span><br><span class="line"></span><br><span class="line">    routing_exception = <span class="keyword">None</span></span><br><span class="line">  </span><br><span class="line">    _is_old_module = <span class="keyword">False</span></span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">endpoint</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="string">"""The endpoint that matched the request.  This in combination with :attr:`view_args` can be used to reconstruct the same or a modified URL.  If an exception happened when matching, this will be ``None``.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> self.url_rule <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">            <span class="keyword">return</span> self.url_rule.endpoint</span><br><span class="line">          </span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">blueprint</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="string">"""The name of the current blueprint"""</span></span><br><span class="line">        <span class="keyword">if</span> self.url_rule <span class="keyword">and</span> <span class="string">'.'</span> <span class="keyword">in</span> self.url_rule.endpoint:</span><br><span class="line">            <span class="keyword">return</span> self.url_rule.endpoint.rsplit(<span class="string">'.'</span>, <span class="number">1</span>)[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>@2 此处定义个一个url_adapter属性,该属性是一个werkzeug.routing.MapAdapter类的实例对象,该对象绑定了WSGI environ变量中的信息.</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_url_adapter</span><span class="params">(self, request)</span>:</span></span><br><span class="line">     </span><br><span class="line">     <span class="keyword">if</span> request <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">         <span class="keyword">return</span> self.url_map.bind_to_environ(request.environ,</span><br><span class="line">             server_name=self.config[<span class="string">'SERVER_NAME'</span>])</span><br><span class="line">     <span class="comment"># We need at the very least the server name to be set for this</span></span><br><span class="line">     <span class="comment"># to work.</span></span><br><span class="line">     <span class="keyword">if</span> self.config[<span class="string">'SERVER_NAME'</span>] <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">         <span class="keyword">return</span> self.url_map.bind(</span><br><span class="line">             self.config[<span class="string">'SERVER_NAME'</span>],</span><br><span class="line">             script_name=self.config[<span class="string">'APPLICATION_ROOT'</span>] <span class="keyword">or</span> <span class="string">'/'</span>,</span><br><span class="line">             url_scheme=self.config[<span class="string">'PREFERRED_URL_SCHEME'</span>])</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>@3 调用match_request()方法,匹配当前的请求,将返回的url_rule设置为request属性的url_rule的值.</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">match_request</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="string">"""Can be overridden by a subclass to hook into the matching</span></span><br><span class="line"><span class="string">    of the request.</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        url_rule, self.request.view_args = \</span><br><span class="line">            self.url_adapter.match(return_rule=<span class="keyword">True</span>)</span><br><span class="line">        self.request.url_rule = url_rule</span><br><span class="line">    <span class="keyword">except</span> HTTPException <span class="keyword">as</span> e:</span><br><span class="line">        self.request.routing_exception = e</span><br><span class="line"></span><br><span class="line"><span class="comment"># MapAdapter对象的match方法,</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">match</span><span class="params">(self, path_info=None, method=None, return_rule=False,</span></span></span><br><span class="line"><span class="function"><span class="params">          query_args=None)</span>:</span></span><br><span class="line">    self.map.update()</span><br><span class="line">    <span class="keyword">if</span> path_info <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">        path_info = self.path_info</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        path_info = to_unicode(path_info, self.map.charset)</span><br><span class="line">        ...</span><br><span class="line">    <span class="keyword">for</span> rule <span class="keyword">in</span> self.map._rules:    </span><br><span class="line">        ...</span><br><span class="line">        <span class="keyword">if</span> return_rule:</span><br><span class="line">            <span class="keyword">return</span> rule, rv  <span class="comment"># rule是Rule的实例,url_path到endpoint映射关系,rv是请求的参数</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>上面match方法删去了其他信息,只留了相关部分.match方法返回的是rule是werkzeug.routing.Rule的实例,表示url_path到endpoint的映射关系;rv是请求的参数.并且将Rule的实例赋值给request.url_rule.</p>
+<p>以上部分是关于将求情压入上下文中部分,下面接着分析full_dispatch_request方法.</p>
+<p>Flask.full_dispatch_request()方法源码:</p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">full_dispatch_request</span><span class="params">(self)</span>:</span></span><br><span class="line">    self.try_trigger_before_first_request_functions()  <span class="comment"># @1</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        request_started.send(self)</span><br><span class="line">        rv = self.preprocess_request()  <span class="comment"># @2</span></span><br><span class="line">        <span class="keyword">if</span> rv <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">            rv = self.dispatch_request()  <span class="comment"># @3</span></span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        rv = self.handle_user_exception(e)</span><br><span class="line">    <span class="keyword">return</span> self.finalize_request(rv)  <span class="comment"># @4</span></span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">try_trigger_before_first_request_functions</span><span class="params">(self)</span>:</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> self._got_first_request:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">with</span> self._before_request_lock:</span><br><span class="line">        <span class="keyword">if</span> self._got_first_request:</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">for</span> func <span class="keyword">in</span> self.before_first_request_funcs:</span><br><span class="line">            func()</span><br><span class="line">        self._got_first_request = <span class="keyword">True</span></span><br></pre></td></tr></table></figure>
+</code></pre><p>执行逻辑: </p>
+<ul>
+<li><p>@1 首先执行Flask.try_trigger_before_first_request_functions(), 该函数在每次请求之前调用Flask.before_first_request_funcs列表中的函数,并且每个Flask实例在每次请求只能调用一次.</p>
+</li>
+<li><p>@2 Flask.preprocess_request()和Flask.finalize_request()方法里面包含了请求处理之前和之后的很多hooks(钩子), 包括</p>
+<ul>
+<li>第一次请求处理之前的 hook 函数，通过 before_first_request 定义</li>
+<li>每个请求处理之前的 hook 函数，通过 before_request 定义</li>
+<li>每个请求正常处理之后的 hook 函数，通过 after_request 定义</li>
+<li>不管请求是否异常都要执行的 teardown_request hook 函数</li>
+</ul>
+</li>
+<li><p>@3 其中dispatch_request()是调用与请求相对应的视图函数,并返回结果的真正的执行函数.这个函数的主要逻辑是通过请求的url,找到对应的视图函数,然后返回响应.</p>
+</li>
+<li><p>@4 最后通过finalize_request()对返回的response进行包装成Response对象返回客户端.</p>
+</li>
+</ul>
+<h3 id="请求如何找到对应的视图函数"><a href="#请求如何找到对应的视图函数" class="headerlink" title="请求如何找到对应的视图函数"></a>请求如何找到对应的视图函数</h3><pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dispatch_request</span><span class="params">(self)</span>:</span></span><br><span class="line">    req = _request_ctx_stack.top.request  <span class="comment"># @1</span></span><br><span class="line">    <span class="keyword">if</span> req.routing_exception <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">        self.raise_routing_exception(req)</span><br><span class="line">    rule = req.url_rule  <span class="comment"># @2</span></span><br><span class="line">    <span class="comment"># if we provide automatic options for this URL and the</span></span><br><span class="line">    <span class="comment"># request came with the OPTIONS method, reply automatically</span></span><br><span class="line">    <span class="keyword">if</span> getattr(rule, <span class="string">'provide_automatic_options'</span>, <span class="keyword">False</span>) \</span><br><span class="line">       <span class="keyword">and</span> req.method == <span class="string">'OPTIONS'</span>:</span><br><span class="line">        <span class="keyword">return</span> self.make_default_options_response()</span><br><span class="line">    <span class="comment"># otherwise dispatch to the handler for that endpoint</span></span><br><span class="line">    <span class="keyword">return</span> self.view_functions[rule.endpoint](**req.view_args)  <span class="comment"># @3</span></span><br></pre></td></tr></table></figure>
+</code></pre><ul>
+<li>@1 在dispatch_request()方法中,首先从保存请求上下文栈中取出保存的请求上下文对象(RequestContext, 这个对象保存了所有与请求相关的信息,在请求开始被创建,并且压入_request_ctx_stack栈中,请求结束后被弹出)的request属性,该属性在RequestContext初始化的时候定义.</li>
+</ul>
+<p>RequestContext对象的request属性是通过Flask.request_class创建的,该属性实际是一个flask.wrappers.Request类对象,该类是Flask默认使用的request 对象,用来记录着相应的endpoint(端点)和view arguments(视图参数)匹配的规则.</p>
+<ul>
+<li><p>@2 取出Request类对象的属性url_rule.该属性在上面分析过了,是一个werkzeug.routing.Rule实例.</p>
+</li>
+<li><p>@3 返回view_functions<a href="**req.view_args">rule.endpoint</a> 的结果, view_functions是一个字典,里面保存着endpoint(端点) 和视图函数的映射关系.view_function[rule.endpoint]是找到rule.endpoint端点对应的视图函数,然后返回视图函数的结果.</p>
+</li>
+</ul>
+<p>在分析full_dispatch_request时的@4标记处,将视图函数返回的响应通过finalize_request()方法进行封装.现在看下到底是如何对视图函数返回的结果进行封装的.</p>
+<p>finalize_request(rx) 方法:</p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">finalize_request</span><span class="params">(self, rv, from_error_handler=False)</span>:</span></span><br><span class="line">    <span class="string">"""Given the return value from a view function this finalizes</span></span><br><span class="line"><span class="string">    the request by converting it into a response and invoking the</span></span><br><span class="line"><span class="string">    postprocessing functions.  This is invoked for both normal</span></span><br><span class="line"><span class="string">    request dispatching as well as error handlers.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Because this means that it might be called as a result of a</span></span><br><span class="line"><span class="string">    failure a special safe mode is available which can be enabled</span></span><br><span class="line"><span class="string">    with the `from_error_handler` flag.  If enabled, failures in</span></span><br><span class="line"><span class="string">    response processing will be logged and otherwise ignored.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    :internal:</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    response = self.make_response(rv)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        response = self.process_response(response)  <span class="comment"># @1</span></span><br><span class="line">        request_finished.send(self, response=response)  @<span class="number">2</span></span><br><span class="line">    <span class="keyword">except</span> Exception:</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> from_error_handler:</span><br><span class="line">            <span class="keyword">raise</span></span><br><span class="line">        self.logger.exception(<span class="string">'Request finalizing failed with an '</span></span><br><span class="line">                              <span class="string">'error while handling an error'</span>)</span><br><span class="line">    <span class="keyword">return</span> response  <span class="comment">#@3</span></span><br></pre></td></tr></table></figure>
+</code></pre><p>这个函数比较简单,通过调用处理response的方法,对视图函数返回的结果进行包装,最后返回可以发给客户端的相应.</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
+<li>经过前面的分析,当一个客户前请求到达服务器,启动的WSGIServer服务器接受请求,并将请求信息交由BaseWSGIServerHandler对象处理.这是WSGIServerHandler实现了WSGI中间件的功能,将请求信息包装成符合WSGI标准的信息.</li>
+<li>然后调用flask应用程序Flask类的实例app,并且将environ和start_response参数传给app,进行处理.</li>
+<li>Flask类实现了<strong>call</strong>方法,可以直接调用实例,在<strong>call</strong>方法中调用app.wsgi_app(environ, start_response)方法,这个方法是flask应用程序处理请求的核心方法.<ul>
+<li>将environ参数传给RequestContext请求上下文对象,并将其压入上下文管理的栈中</li>
+<li>然后调用app.full_dispatch_request()方法,该方法之后会根据请求相关信息找到与请求匹配的视图函数,调用视图函数,然后将返回的结果进行进一步的处理,返回最终的相应response.</li>
+<li>最后通过response(environ, start_response)进行封装,返回给BaseWSGIServerHandler类中,最后再由该类进行处理,然后返回给客户端响应.</li>
+</ul>
+</li>
+</ol>
+<p>请求的大体过程就是上面的几部,但是详细的细节好有很多:</p>
+<ol>
+<li>在实例化RequestContext时,创建的一个url_adapter的werkzeug.routing.MapAdapter实例.通过该实例可以找到请求对应的endpoint. 同时也创建了一个flask.wrapper.Request的实例,该实例保存了url到endpoint映射关系的Rule实例.通过这个实例可以找到该请求所对应url的视图的endpoint.通过endpoint就可以找到对应的视图函数.</li>
+<li>在处理请求前和处理请求后的hook函数.</li>
+</ol>
+<p>总体来说请求的逻辑还是很简单的,但是实现起来还是细节的东西还是挺多的.也体会到写出一个复杂的框架还是不容易的.</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享,您的支持将鼓励我继续创作!</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="allen 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="allen 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    allen
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://yoursite.com/2018/12/06/flask-请求/" title="flask-请求">http://yoursite.com/2018/12/06/flask-请求/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/flask源码/" rel="tag"># flask源码</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/06/flask-路由匹配系统/" rel="next" title="flask-路由匹配系统">
+                <i class="fa fa-chevron-left"></i> flask-路由匹配系统
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="allen" />
+            
+              <p class="site-author-name" itemprop="name">allen</p>
+              <p class="site-description motion-element" itemprop="description">Whatever is worth doing is worth doing well!</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/allenshen321" target="_blank" title="Github">
+                      
+                        <i class="fa fa-fw fa-github"></i>Github</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:fupengshen@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://106.12.202.103" target="_blank" title="电影网站">
+                      
+                        <i class="fa fa-fw fa-globe"></i>电影网站</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://106.12.202.103" title="博主的电影网站" target="_blank">博主的电影网站</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://github.com/allenshen321" title="Github" target="_blank">Github</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#思路"><span class="nav-number">1.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#处理客户端请求"><span class="nav-number">2.</span> <span class="nav-text">处理客户端请求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#请求如何找到对应的视图函数"><span class="nav-number">3.</span> <span class="nav-text">请求如何找到对应的视图函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">allen</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.0.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  
+  <script type="text/javascript" color='0,0,255' opacity='0.8' zIndex='-2' count='150' src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+
+</body>
+</html>
