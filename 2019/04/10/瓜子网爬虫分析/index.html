@@ -415,8 +415,19 @@
       
 
       
-        <h4 id="整体网站反扒分析"><a href="#整体网站反扒分析" class="headerlink" title="整体网站反扒分析"></a>整体网站反扒分析</h4><p>瓜子网整体上网页结构比较简单.但是发爬虫的手段目前我知道的只有cookie校验,其中最主要的参数是antipas参数,每次请求都会变化.<br>    <img src="../img/guazi/cookie.png" alt="cookie"></p>
-<h4 id="首次请求分析"><a href="#首次请求分析" class="headerlink" title="首次请求分析"></a>首次请求分析</h4><p>首次请求的链接: <a href="https://www.guazi.com/bj/buy/,从此页面可以找到所有的汽车商标链接和,分页请求" target="_blank" rel="noopener">https://www.guazi.com/bj/buy/,从此页面可以找到所有的汽车商标链接和,分页请求</a>.</p>
+        <p>注: 本文仅供学习, 非商业用途.</p>
+<h4 id="整体网站反扒分析"><a href="#整体网站反扒分析" class="headerlink" title="整体网站反扒分析"></a>整体网站反扒分析</h4><p>瓜子网整体上网页结构比较简单.但是发爬虫的手段目前我知道的只有cookie校验,其中最主要的参数是antipas参数,每次请求都会变化.</p>
+<p><img src="../img/guazi/cookie.png" alt="cookie"></p>
+<p>其中, antipas和cainfo是必要的参数.其他可以不带.cainfo参数,在每次响应之后都会有,可以看到它的有效期是365天,也可以看成是不变的.唯一每次请求都会发生变化的是antipas参数.所有要想请求成功,就要找到这个可变的参数.</p>
+<p>为了找到这个参数是怎么来的,首先打开chrome的开发者工具,删除cookie,然后重新刷新下页面,在network栏,看到了一个一闪而过的请求,在请求完之后就没有了.而且在全局搜索antipas参数,只有首页请求有.为了找到这个请求,用fiddler抓包</p>
+<a id="more"></a>
+<p><img src="../img/guazi/createCookie.png" alt="create_cookie"></p>
+<p>看到在返回正式数据的请求之前还有一个请求,该请求返回的状态吗是203,这个请求返回了生成antipas验证的代码,格式化改代码,分析发现,最后有个value=anti()方法,这个方法就是生成antipas的方法,将该段js代码,复制到文件中,python调用通过execjs调用该方法产生这个验证参数.</p>
+<p>在实际的爬虫过程中,如果返回的响应的状态吗是203,则调用这个js方法,产生新的antipas,放入请求的cookie中,第二次请求就能返回真正的数据了.</p>
+<h4 id="爬虫逻辑分析"><a href="#爬虫逻辑分析" class="headerlink" title="爬虫逻辑分析"></a>爬虫逻辑分析</h4><p>首次请求的链接: <a href="https://www.guazi.com/bj/buy/" target="_blank" rel="noopener">https://www.guazi.com/bj/buy/</a> ,从此页面可以找到所有的汽车商标链接和,分页请求.</p>
+<p>然后迭代商标链接和分页链接,获取汽车详情的链接,抓取汽车详情.</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>通过多次请求验证,请求中可变的参数,然后找到可变参数的构造方法,构造请求,获取结果.</p>
+<p>本文只是验证了请求的cookie参数的反爬方法.其他关于请求速度的阀值没有验证. 如果大量爬取,代理是避免不了的.</p>
 
       
     </div>
@@ -481,7 +492,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/爬虫/" rel="tag"># 爬虫</a>
+            <a href="/tags/反反爬虫/" rel="tag"># 反反爬虫</a>
           
         </div>
       
@@ -503,6 +514,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/14/58字体反爬虫的分析/" rel="prev" title="58字体反爬虫的分析">
+                58字体反爬虫的分析 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -583,7 +598,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-count">33</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -605,7 +620,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -678,7 +693,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#整体网站反扒分析"><span class="nav-number">1.</span> <span class="nav-text">整体网站反扒分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#首次请求分析"><span class="nav-number">2.</span> <span class="nav-text">首次请求分析</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#整体网站反扒分析"><span class="nav-number">1.</span> <span class="nav-text">整体网站反扒分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#爬虫逻辑分析"><span class="nav-number">2.</span> <span class="nav-text">爬虫逻辑分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>

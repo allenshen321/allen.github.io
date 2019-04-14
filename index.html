@@ -329,6 +329,151 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://sfpweb.cn/2019/04/14/58字体反爬虫的分析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="allen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="allen's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/14/58字体反爬虫的分析/" itemprop="url">58字体反爬虫的分析</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-14T14:01:31+08:00">2019-04-14</time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/爬虫/" itemprop="url" rel="index">
+                    <span itemprop="name">爬虫</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h4 id="问题由来"><a href="#问题由来" class="headerlink" title="问题由来"></a>问题由来</h4><p>在爬取某网站求职者简历的时候,碰到了提取的信息是乱码,分析源代码发现源代码中要提取的信息是通过 &#xedfs; 的形式,明显不是我们要的信息.这种网站的反爬虫策略一般是采用了字体反爬虫策略.通过css中添加 @font-face标签,将网站中的某些字用代码表示,在渲染的时候在转换回相应的文字.</p>
+<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p>网站自定义字体,通常用来替换到该网站的核心信息,通常替换字的数量不会太多,可以通过手工提取字体库中所要替换的字体,每个字体会对应一个唯一的unicode码,通过分析要替换的代码替换掉网站源代码中的相关字符就可以了.</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/04/14/58字体反爬虫的分析/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://sfpweb.cn/2019/04/10/瓜子网爬虫分析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -419,11 +564,18 @@
 
       
         
-          
-            <h4 id="整体网站反扒分析"><a href="#整体网站反扒分析" class="headerlink" title="整体网站反扒分析"></a>整体网站反扒分析</h4><p>瓜子网整体上网页结构比较简单.但是发爬虫的手段目前我知道的只有cookie校验,其中最主要的参数是antipas参数,每次请求都会变化.<br>    <img src="../img/guazi/cookie.png" alt="cookie"></p>
-<h4 id="首次请求分析"><a href="#首次请求分析" class="headerlink" title="首次请求分析"></a>首次请求分析</h4><p>首次请求的链接: <a href="https://www.guazi.com/bj/buy/,从此页面可以找到所有的汽车商标链接和,分页请求" target="_blank" rel="noopener">https://www.guazi.com/bj/buy/,从此页面可以找到所有的汽车商标链接和,分页请求</a>.</p>
-
-          
+          <p>注: 本文仅供学习, 非商业用途.</p>
+<h4 id="整体网站反扒分析"><a href="#整体网站反扒分析" class="headerlink" title="整体网站反扒分析"></a>整体网站反扒分析</h4><p>瓜子网整体上网页结构比较简单.但是发爬虫的手段目前我知道的只有cookie校验,其中最主要的参数是antipas参数,每次请求都会变化.</p>
+<p><img src="../img/guazi/cookie.png" alt="cookie"></p>
+<p>其中, antipas和cainfo是必要的参数.其他可以不带.cainfo参数,在每次响应之后都会有,可以看到它的有效期是365天,也可以看成是不变的.唯一每次请求都会发生变化的是antipas参数.所有要想请求成功,就要找到这个可变的参数.</p>
+<p>为了找到这个参数是怎么来的,首先打开chrome的开发者工具,删除cookie,然后重新刷新下页面,在network栏,看到了一个一闪而过的请求,在请求完之后就没有了.而且在全局搜索antipas参数,只有首页请求有.为了找到这个请求,用fiddler抓包</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/04/10/瓜子网爬虫分析/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1720,181 +1872,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://sfpweb.cn/2018/09/23/flask-用户认证系统/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="allen">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="allen's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/23/flask-用户认证系统/" itemprop="url">flask-用户认证系统</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-23T20:34:58+08:00">2018-09-23</time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/flask/" itemprop="url" rel="index">
-                    <span itemprop="name">flask</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h4 id="flask有关认证的扩展"><a href="#flask有关认证的扩展" class="headerlink" title="flask有关认证的扩展"></a>flask有关认证的扩展</h4><table>
-<thead>
-<tr>
-<th>扩展</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>flask-login</td>
-<td>管理已登录用户的用户会话</td>
-</tr>
-<tr>
-<td>werkzeug</td>
-<td>计算密码散列值并进行核对</td>
-</tr>
-<tr>
-<td>itsdangerous</td>
-<td>生成并核对加密安全令牌</td>
-</tr>
-<tr>
-<td>flask-mail</td>
-<td>发送与认证相关的邮件</td>
-</tr>
-</tbody>
-</table>
-<h4 id="werkzeug计算密码散列值"><a href="#werkzeug计算密码散列值" class="headerlink" title="werkzeug计算密码散列值"></a>werkzeug计算密码散列值</h4><p>在数据库中保存用户密码时,处于安全考虑,我们储存的用户密码加密后的密码散列值.</p>
-<p>werkzeug中的security模块中提供的两个方法可以很方便的实现这个功能.</p>
-<ol>
-<li>generate_password_hash(password, method=pdkdf2:sha1, salt_length=8), 该方法输入为原始密码,输出是字符串形式的密码散列值.可以用在用户注册的时候,数据库中保存用户密码散列值.method, salt_length的默认值就能满足大部分需求.</li>
-<li>check_password_hash(hash, password),这个函数的参数是数据库中存储的密码散列值和用户提供的密码,两者进行核对,如果密码正确则返回True,否则,返回False.</li>
-</ol>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/09/23/flask-用户认证系统/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1949,7 +1926,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-count">33</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1971,7 +1948,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
