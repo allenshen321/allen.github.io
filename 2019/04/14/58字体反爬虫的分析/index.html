@@ -81,14 +81,14 @@
 
 <meta name="description" content="Whatever is worth doing is worth doing well!">
 <meta property="og:type" content="website">
-<meta property="og:title" content="about">
-<meta property="og:url" content="http://sfpweb.cn/about/index.html">
+<meta property="og:title" content="categories">
+<meta property="og:url" content="http://sfpweb.cn/categories/index.html">
 <meta property="og:site_name" content="allen&#39;s blog">
 <meta property="og:description" content="Whatever is worth doing is worth doing well!">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-16T08:42:06.100Z">
+<meta property="og:updated_time" content="2018-05-18T13:40:33.214Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="about">
+<meta name="twitter:title" content="categories">
 <meta name="twitter:description" content="Whatever is worth doing is worth doing well!">
 
 
@@ -121,7 +121,7 @@
 
 
 
-  <link rel="canonical" href="http://sfpweb.cn/about/"/>
+  <link rel="canonical" href="http://sfpweb.cn/categories/"/>
 
 
 
@@ -424,9 +424,9 @@ fontforge 一个可以创建自己的文字库的软件, 此处用来查看.woff
 </code></pre><h4 id="实际操作思路"><a href="#实际操作思路" class="headerlink" title="实际操作思路"></a>实际操作思路</h4><ol>
 <li>分析网站, 找到字体转换的元素, 并找到其中css中用到的@font-face文件.</li>
 </ol>
-<p><img src="../img/zitifanpa/findFontFamily.png" alt="找到字体文件"></p>
+<p><img src="/img/zitifanpa/findFontFamily.png" alt="找到字体文件"></p>
 <p>找到左侧加密的源代码,然后后侧可以看到该元素的属性,其中类名称为stonefont的字体的 font-family 采用的是customefont, 全局所搜这个关键字.</p>
-<p><img src="../img/zitifanpa/fontFamily.png" alt="fontFamily"></p>
+<p><img src="/img/zitifanpa/fontFamily.png" alt="fontFamily"></p>
 <p>从@font-face标签可以看到,字体库就在该源码中,这是一种情况,有的网站会采用外部链接的方式加载字体库,原理一样. 并且从中可以看到是改字体库采用的是base64加密的方式.利用正则表达式将加密的内容提取出来,方便分析; 代码如下:</p>
 <p>   ‘’’python</p>
 <pre><code>def _get_base64_str(text):
@@ -439,14 +439,14 @@ fontforge 一个可以创建自己的文字库的软件, 此处用来查看.woff
 <ol start="2">
 <li>将加密的字体库提取出来候进行base64解密, 保存为xxx.woff格式字体库文件.用fontforge打开,查看其中自定义的字体.</li>
 </ol>
-<p><img src="../img/zitifanpa/font.png" alt="字体库文件"></p>
+<p><img src="/img/zitifanpa/font.png" alt="字体库文件"></p>
 <p>可见,自定义的文字就这点,我们需要建立一个字典,将每个字的uni编码与文字对应起来,建立一个uni-&gt; 文字的映射关系.然后利用python的fontTools字体处理库, 提取网站源码与源码的映射关系.具体在cmap标签下.</p>
 <p>网站源码:</p>
-<p><img src="../img/zitifanpa/yuanma.png" alt="网站源码字符串"></p>
+<p><img src="/img/zitifanpa/yuanma.png" alt="网站源码字符串"></p>
 <p>fontTools.TTFont提取的文字映射dict:</p>
-<p><img src="../img/zitifanpa/cmap.png" alt="cmap"></p>
+<p><img src="/img/zitifanpa/cmap.png" alt="cmap"></p>
 <p>从提取的cmap看到,字典的key为10进行的数字,而源码中为16进制的,所以要将key由十进制变为16进制, 并且将0x替换为&amp;#x, 为了和原网址保持一致,变化后的映射关系为:</p>
-<p><img src="../img/zitifanpa/cmap2.png" alt="cmap2"></p>
+<p><img src="/img/zitifanpa/cmap2.png" alt="cmap2"></p>
 <p>这样看起来就和原网址一样了,比如在 <span class="sex stonefont">&#xe6aa;<span>, 其中加密的 &amp;#xe6aa, 在cmap中找到对应的uni码为 uni7537, 进一步在uni与文字的映射中找到文字为”男”, 这样就找到对应的性别为男,其他的加密也就可以破解了.</span></span></p>
 <h4 id="实际中遇到的问题"><a href="#实际中遇到的问题" class="headerlink" title="实际中遇到的问题"></a>实际中遇到的问题</h4><ol>
 <li>在用xpath提取到的信息中,提取加密的字符不是源代码中的字符,而变成了unicode格式的,这样就不能映射匹配了,</li>

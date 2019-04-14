@@ -81,14 +81,14 @@
 
 <meta name="description" content="Whatever is worth doing is worth doing well!">
 <meta property="og:type" content="website">
-<meta property="og:title" content="about">
-<meta property="og:url" content="http://sfpweb.cn/about/index.html">
+<meta property="og:title" content="categories">
+<meta property="og:url" content="http://sfpweb.cn/categories/index.html">
 <meta property="og:site_name" content="allen&#39;s blog">
 <meta property="og:description" content="Whatever is worth doing is worth doing well!">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-16T08:42:06.100Z">
+<meta property="og:updated_time" content="2018-05-18T13:40:33.214Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="about">
+<meta name="twitter:title" content="categories">
 <meta name="twitter:description" content="Whatever is worth doing is worth doing well!">
 
 
@@ -121,7 +121,7 @@
 
 
 
-  <link rel="canonical" href="http://sfpweb.cn/about/"/>
+  <link rel="canonical" href="http://sfpweb.cn/categories/"/>
 
 
 
@@ -566,7 +566,7 @@
         
           <p>注: 本文仅供学习, 非商业用途.</p>
 <h4 id="整体网站反扒分析"><a href="#整体网站反扒分析" class="headerlink" title="整体网站反扒分析"></a>整体网站反扒分析</h4><p>瓜子网整体上网页结构比较简单.但是发爬虫的手段目前我知道的只有cookie校验,其中最主要的参数是antipas参数,每次请求都会变化.</p>
-<p><img src="../img/guazi/cookie.png" alt="cookie"></p>
+<p><img src="/img/guazi/cookie.png" alt="cookie"></p>
 <p>其中, antipas和cainfo是必要的参数.其他可以不带.cainfo参数,在每次响应之后都会有,可以看到它的有效期是365天,也可以看成是不变的.唯一每次请求都会发生变化的是antipas参数.所有要想请求成功,就要找到这个可变的参数.</p>
 <p>为了找到这个参数是怎么来的,首先打开chrome的开发者工具,删除cookie,然后重新刷新下页面,在network栏,看到了一个一闪而过的请求,在请求完之后就没有了.而且在全局搜索antipas参数,只有首页请求有.为了找到这个请求,用fiddler抓包</p>
           <!--noindex-->
