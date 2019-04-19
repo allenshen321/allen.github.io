@@ -81,14 +81,14 @@
 
 <meta name="description" content="Whatever is worth doing is worth doing well!">
 <meta property="og:type" content="website">
-<meta property="og:title" content="categories">
-<meta property="og:url" content="http://sfpweb.cn/categories/index.html">
+<meta property="og:title" content="tags">
+<meta property="og:url" content="http://sfpweb.cn/tags/index.html">
 <meta property="og:site_name" content="allen&#39;s blog">
 <meta property="og:description" content="Whatever is worth doing is worth doing well!">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-18T13:40:33.214Z">
+<meta property="og:updated_time" content="2018-05-18T13:39:57.958Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="categories">
+<meta name="twitter:title" content="tags">
 <meta name="twitter:description" content="Whatever is worth doing is worth doing well!">
 
 
@@ -121,7 +121,7 @@
 
 
 
-  <link rel="canonical" href="http://sfpweb.cn/categories/"/>
+  <link rel="canonical" href="http://sfpweb.cn/tags/"/>
 
 
 
@@ -428,14 +428,7 @@ fontforge 一个可以创建自己的文字库的软件, 此处用来查看.woff
 <p>找到左侧加密的源代码,然后后侧可以看到该元素的属性,其中类名称为stonefont的字体的 font-family 采用的是customefont, 全局所搜这个关键字.</p>
 <p><img src="/img/zitifanpa/fontFamily.png" alt="fontFamily"></p>
 <p>从@font-face标签可以看到,字体库就在该源码中,这是一种情况,有的网站会采用外部链接的方式加载字体库,原理一样. 并且从中可以看到是改字体库采用的是base64加密的方式.利用正则表达式将加密的内容提取出来,方便分析; 代码如下:</p>
-<p>   ‘’’python</p>
-<pre><code>def _get_base64_str(text):
-    # 正则
-    pattern = re.compile(r&apos;base64,(.*?)\) &apos;)
-    # 查找加密字符串
-    base64_str = pattern.search(text).group(1)
-    return base64_str 
-</code></pre><p>   ‘’’ </p>
+   <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_get_base64_str</span><span class="params">(text)</span>:</span></span><br><span class="line">    <span class="comment"># 正则</span></span><br><span class="line">    pattern = re.compile(<span class="string">r'base64,(.*?)\) '</span>)</span><br><span class="line">    <span class="comment"># 查找加密字符串</span></span><br><span class="line">    base64_str = pattern.search(text).group(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">return</span> base64_str</span><br></pre></td></tr></table></figure>
 <ol start="2">
 <li>将加密的字体库提取出来候进行base64解密, 保存为xxx.woff格式字体库文件.用fontforge打开,查看其中自定义的字体.</li>
 </ol>
@@ -453,104 +446,104 @@ fontforge 一个可以创建自己的文字库的软件, 此处用来查看.woff
 </ol>
 <p>目前没有找到怎么提取出来的加密的信息和源代码一样,我就换了一种思路,在提取信息前,将源代码中的加密信息全部还原成文字.这只是一种替代的方法, 相比较还原关键信息,将整个源代码中的加密信息还原的工作量大,性能可能会受到影响.</p>
 <h4 id="关键性的映射关系代码"><a href="#关键性的映射关系代码" class="headerlink" title="关键性的映射关系代码"></a>关键性的映射关系代码</h4><p>一下代码,只是针对某一特定网站的的解密,仅对代码思路进行参考,不适用于所有网站.其他网站请自行修改.</p>
-<p>   ‘’’python</p>
-<pre><code>import base64
-import re
+<pre><code class="python">
+<span class="keyword">import</span> base64
+<span class="keyword">import</span> re
 
-from fontTools.ttLib import TTFont
-
-
-def _get_base64_str(text):
-    &quot;&quot;&quot;
-    获取响应中的base64字体字符串
-    :param resp:
-    :return:
-    &quot;&quot;&quot;
-    pattern = re.compile(r&apos;base64,(.*?)\) &apos;)
-
-    base64_str = pattern.search(text).group(1)
-    # print(base64_str)
-
-    return base64_str
+<span class="keyword">from</span> fontTools.ttLib <span class="keyword">import</span> TTFont
 
 
-def hex2word(resp):
-    &quot;&quot;&quot;
-    将base64字符串加密的字体,转换成16进制-文字的匹配关系
-    :param base64_str:
-    :return: 替换后的结果
-    &quot;&quot;&quot;
-    # 获取响应中字体部分
+<span class="function"><span class="keyword">def</span> <span class="title">_get_base64_str</span><span class="params">(text)</span>:</span>
+    <span class="string">"""</span>
+<span class="string">    获取响应中的base64字体字符串</span>
+<span class="string">    :param resp:</span>
+<span class="string">    :return:</span>
+<span class="string">    """</span>
+    pattern = re.compile(<span class="string">r'base64,(.*?)\) '</span>)
+
+    base64_str = pattern.search(text).group(<span class="number">1</span>)
+    <span class="comment"># print(base64_str)</span>
+
+    <span class="keyword">return</span> base64_str
+
+
+<span class="function"><span class="keyword">def</span> <span class="title">hex2word</span><span class="params">(resp)</span>:</span>
+    <span class="string">"""</span>
+<span class="string">    将base64字符串加密的字体,转换成16进制-文字的匹配关系</span>
+<span class="string">    :param base64_str:</span>
+<span class="string">    :return: 替换后的结果</span>
+<span class="string">    """</span>
+    <span class="comment"># 获取响应中字体部分</span>
     base64_str = _get_base64_str(resp)
-    # 手工解析字体uni与汉字对应的编码
+    <span class="comment"># 手工解析字体uni与汉字对应的编码</span>
     uni_word_dict = {
-        &quot;uni31&quot;: &quot;1&quot;,
-        &quot;uni42&quot;: &quot;B&quot;,
-        &quot;uni4EE5&quot;: &quot;以&quot;,
-        &quot;uni30&quot;: &quot;0&quot;,
-        &quot;uni6768&quot;: &quot;杨&quot;,
-        &quot;uni9648&quot;: &quot;陈&quot;,
-        &quot;uni535A&quot;: &quot;博&quot;,
-        &quot;uni5E94&quot;: &quot;应&quot;,
-        &quot;uni9AD8&quot;: &quot;高&quot;,
-        &quot;uni5C4A&quot;: &quot;届&quot;,
-        &quot;uni7537&quot;: &quot;男&quot;,
-        &quot;uni41&quot;: &quot;A&quot;,
-        &quot;uni5468&quot;: &quot;周&quot;,
-        &quot;uni6280&quot;: &quot;技&quot;,
-        &quot;uni65E0&quot;: &quot;无&quot;,
-        &quot;uni5F20&quot;: &quot;张&quot;,
-        &quot;uni4d&quot;: &quot;M&quot;,
-        &quot;uni4E2D&quot;: &quot;中&quot;,
-        &quot;uni37&quot;: &quot;7&quot;,
-        &quot;uni5973&quot;: &quot;女&quot;,
-        &quot;uni4E13&quot;: &quot;专&quot;,
-        &quot;uni79D1&quot;: &quot;科&quot;,
-        &quot;uni58E8&quot;: &quot;士&quot;,
-        &quot;uni5434&quot;: &quot;吴&quot;,
-        &quot;uni36&quot;: &quot;6&quot;,
-        &quot;uni33&quot;: &quot;3&quot;,
-        &quot;uni45&quot;: &quot;E&quot;,
-        &quot;uni32&quot;: &quot;2&quot;,
-        &quot;uni5927&quot;: &quot;大&quot;,
-        &quot;uni7ECF&quot;: &quot;经&quot;,
-        &quot;uni672C&quot;: &quot;本&quot;,
-        &quot;uni7855&quot;: &quot;硕&quot;,
-        &quot;uni5218&quot;: &quot;刘&quot;,
-        &quot;uni38&quot;: &quot;8&quot;,
-        &quot;uni39&quot;: &quot;9&quot;,
-        &quot;uni674E&quot;: &quot;李&quot;,
-        &quot;uni4E0B&quot;: &quot;下&quot;,
-        &quot;uni6821&quot;: &quot;校&quot;,
-        &quot;uni34&quot;: &quot;4&quot;,
-        &quot;uni8D75&quot;: &quot;赵&quot;,
-        &quot;uni738B&quot;: &quot;王&quot;,
-        &quot;uni751F&quot;: &quot;生&quot;,
-        &quot;uni35&quot;: &quot;5&quot;,
-        &quot;uni9EC4&quot;: &quot;黄&quot;,
-        &quot;uni9A8C&quot;: &quot;验&quot;
+        <span class="string">"uni31"</span>: <span class="string">"1"</span>,
+        <span class="string">"uni42"</span>: <span class="string">"B"</span>,
+        <span class="string">"uni4EE5"</span>: <span class="string">"以"</span>,
+        <span class="string">"uni30"</span>: <span class="string">"0"</span>,
+        <span class="string">"uni6768"</span>: <span class="string">"杨"</span>,
+        <span class="string">"uni9648"</span>: <span class="string">"陈"</span>,
+        <span class="string">"uni535A"</span>: <span class="string">"博"</span>,
+        <span class="string">"uni5E94"</span>: <span class="string">"应"</span>,
+        <span class="string">"uni9AD8"</span>: <span class="string">"高"</span>,
+        <span class="string">"uni5C4A"</span>: <span class="string">"届"</span>,
+        <span class="string">"uni7537"</span>: <span class="string">"男"</span>,
+        <span class="string">"uni41"</span>: <span class="string">"A"</span>,
+        <span class="string">"uni5468"</span>: <span class="string">"周"</span>,
+        <span class="string">"uni6280"</span>: <span class="string">"技"</span>,
+        <span class="string">"uni65E0"</span>: <span class="string">"无"</span>,
+        <span class="string">"uni5F20"</span>: <span class="string">"张"</span>,
+        <span class="string">"uni4d"</span>: <span class="string">"M"</span>,
+        <span class="string">"uni4E2D"</span>: <span class="string">"中"</span>,
+        <span class="string">"uni37"</span>: <span class="string">"7"</span>,
+        <span class="string">"uni5973"</span>: <span class="string">"女"</span>,
+        <span class="string">"uni4E13"</span>: <span class="string">"专"</span>,
+        <span class="string">"uni79D1"</span>: <span class="string">"科"</span>,
+        <span class="string">"uni58E8"</span>: <span class="string">"士"</span>,
+        <span class="string">"uni5434"</span>: <span class="string">"吴"</span>,
+        <span class="string">"uni36"</span>: <span class="string">"6"</span>,
+        <span class="string">"uni33"</span>: <span class="string">"3"</span>,
+        <span class="string">"uni45"</span>: <span class="string">"E"</span>,
+        <span class="string">"uni32"</span>: <span class="string">"2"</span>,
+        <span class="string">"uni5927"</span>: <span class="string">"大"</span>,
+        <span class="string">"uni7ECF"</span>: <span class="string">"经"</span>,
+        <span class="string">"uni672C"</span>: <span class="string">"本"</span>,
+        <span class="string">"uni7855"</span>: <span class="string">"硕"</span>,
+        <span class="string">"uni5218"</span>: <span class="string">"刘"</span>,
+        <span class="string">"uni38"</span>: <span class="string">"8"</span>,
+        <span class="string">"uni39"</span>: <span class="string">"9"</span>,
+        <span class="string">"uni674E"</span>: <span class="string">"李"</span>,
+        <span class="string">"uni4E0B"</span>: <span class="string">"下"</span>,
+        <span class="string">"uni6821"</span>: <span class="string">"校"</span>,
+        <span class="string">"uni34"</span>: <span class="string">"4"</span>,
+        <span class="string">"uni8D75"</span>: <span class="string">"赵"</span>,
+        <span class="string">"uni738B"</span>: <span class="string">"王"</span>,
+        <span class="string">"uni751F"</span>: <span class="string">"生"</span>,
+        <span class="string">"uni35"</span>: <span class="string">"5"</span>,
+        <span class="string">"uni9EC4"</span>: <span class="string">"黄"</span>,
+        <span class="string">"uni9A8C"</span>: <span class="string">"验"</span>
     }
 
-    # 加密字体解密
+    <span class="comment"># 加密字体解密</span>
     content = base64.b64decode(base64_str)
-    # 保存为.woff文件
-    with open(&quot;font_tmp.woff&quot;, &quot;wb&quot;) as file:
+    <span class="comment"># 保存为.woff文件</span>
+    <span class="keyword">with</span> open(<span class="string">"font_tmp.woff"</span>, <span class="string">"wb"</span>) <span class="keyword">as</span> file:
         file.write(content)
-    # fontTools.TTFont加载字体文件
-    ttf = TTFont(&quot;font_tmp.woff&quot;)
-    # 获取字体文件的cmap映射关系
+    <span class="comment"># fontTools.TTFont加载字体文件</span>
+    ttf = TTFont(<span class="string">"font_tmp.woff"</span>)
+    <span class="comment"># 获取字体文件的cmap映射关系</span>
     cmap = ttf.getBestCmap()
-    # 处理映射关系,使映射的key与源码中使用的加密格式匹配
-    cmap = {hex(key).replace(&quot;0x&quot;, &quot;&amp;#x&quot;): value for key, value in cmap.items()}
+    <span class="comment"># 处理映射关系,使映射的key与源码中使用的加密格式匹配</span>
+    cmap = {hex(key).replace(<span class="string">"0x"</span>, <span class="string">"&amp;#x"</span>): value <span class="keyword">for</span> key, value <span class="keyword">in</span> cmap.items()}
 
-    # 处理原码中加密部分进行还原
-    for code, uni in cmap.items():
-        if code in resp:
-            resp = resp.replace(code+&quot;;&quot;, uni_word_dict[cmap[code]])
+    <span class="comment"># 处理原码中加密部分进行还原</span>
+    <span class="keyword">for</span> code, uni <span class="keyword">in</span> cmap.items():
+        <span class="keyword">if</span> code <span class="keyword">in</span> resp:
+            resp = resp.replace(code+<span class="string">";"</span>, uni_word_dict[cmap[code]])
 
-    # 返回还原后的源码
-    return resp 
-</code></pre><p>   ‘’’ </p>
+    <span class="comment"># 返回还原后的源码</span>
+    <span class="keyword">return</span> resp 
+</code></pre>
 <h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><ol>
 <li>网站采用字体反爬虫,可以解析字体库文件,手工建立uni和文字映射关系;</li>
 <li>利用fontTools库,分析字体库文件.woff/.ttf的cmap, 找到源码中加密与uni的映射</li>
